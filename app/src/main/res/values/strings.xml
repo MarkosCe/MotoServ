@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MotoServ</string>
+
+    <string name="facebook_app_id">675390224020487</string>
+    <string name="fb_login_protocol_scheme">fb675390224020487</string>
+    <string name="facebook_client_token">9b5a12e9ea5902c2a4d519f2384b0c5d</string>
+
+</resources>

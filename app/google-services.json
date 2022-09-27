@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1059685651575",
+    "project_id": "motoserv-5bf32",
+    "storage_bucket": "motoserv-5bf32.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059685651575:android:bff361f3120bd9a00c6272",
+        "android_client_info": {
+          "package_name": "com.example.motoserv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059685651575-uaq2bmar3ceq3uhupn9uoaqe8mfb77pa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.motoserv",
+            "certificate_hash": "dbd75800d9782ef50652345f1a3eb51e450e5856"
+          }
+        },
+        {
+          "client_id": "1059685651575-1bd8180ntapk1f358373a20vh3qo2jtu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASs_I5CcfLqnaeCmexDkOIvQUhOCDx7bg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059685651575-1bd8180ntapk1f358373a20vh3qo2jtu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
