@@ -14,4 +14,5 @@
     <color name="color_tint_op">#ff63c7ab</color>
     <color name="white_color">#fdfbff</color>
     <color name="gray_color">#d5d5d5</color>
+    <color name="fb_color">#1877F2</color>
 </resources>
