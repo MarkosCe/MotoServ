@@ -11,6 +11,7 @@
     <color name="primary_color">#17262b</color>
     <color name="second_color">#09b784</color>
     <color name="color_tint">#63c7ab</color>
+    <color name="color_tint_op">#ff63c7ab</color>
     <color name="white_color">#fdfbff</color>
     <color name="gray_color">#d5d5d5</color>
 </resources>

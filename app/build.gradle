@@ -57,4 +57,10 @@ dependencies {
     // Add the dependency for the Realtime Database library
     implementation 'com.google.firebase:firebase-database'
 
+    //Dependency for ShapeOfView
+    implementation 'io.github.florent37:shapeofview:1.4.7'
+
+    //Dependency for the Google Play services library and specify its version
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+
 }

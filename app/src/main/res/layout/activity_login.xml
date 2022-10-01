@@ -4,29 +4,123 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    tools:context=".LoginActivity"
+    android:background="@color/primary_color">
+    
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:padding="30dp">
+        android:orientation="vertical">
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/button_sign_in"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp" />
+            android:orientation="horizontal">
+
+            <io.github.florent37.shapeofview.shapes.CircleView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+
+                android:elevation="4dp"
+                app:shape_circle_borderColor="@color/color_tint"
+                app:shape_circle_borderWidth="2dp"
+                android:layout_marginTop="-105dp"
+                android:layout_marginStart="-60dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_tint"/>
+
+            </io.github.florent37.shapeofview.shapes.CircleView>
+
+            <io.github.florent37.shapeofview.shapes.CircleView
+                android:layout_width="450dp"
+                android:layout_height="450dp"
+
+                android:elevation="4dp"
+                app:shape_circle_borderColor="@color/color_tint_op"
+                app:shape_circle_borderWidth="2dp"
+                android:layout_marginTop="-235dp"
+                android:layout_marginStart="-65dp"
+                android:alpha="0.1">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_tint"/>
+
+            </io.github.florent37.shapeofview.shapes.CircleView>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_logo_png"
+            android:contentDescription="logo_moto"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MotoServ"
+            android:textColor="@color/white_color"
+            android:textStyle="bold"
+            android:textSize="55sp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Bienvenido!!!"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
+            android:textSize="18sp"
+            android:textColor="@color/white_color"
+            android:layout_marginStart="15dp"/>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <io.github.florent37.shapeofview.shapes.ArcView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:elevation="4dp"
+                app:shape_arc_height="45dp"
+                app:shape_arc_position="top"
+                >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/second_color"/>
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/button_sign_in"
+                    android:layout_width="255dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white_color"
+                    android:textSize="18sp"
+                    android:layout_marginTop="30dp" />
+
+                <Button
+                    android:layout_width="255dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@color/white_color"
+                    android:text="Continuar con Google"
+                    android:textColor="@color/primary_color"
+                    android:drawableLeft="@drawable/ic_google"/>
+
+            </io.github.florent37.shapeofview.shapes.ArcView>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

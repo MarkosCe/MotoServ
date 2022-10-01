@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MotoServ" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.MotoServ" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryVariant">@color/second_color</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -19,7 +19,7 @@
         <!-- fondo de nuestro splash. -->
         <item name="windowSplashScreenBackground">@color/second_color</item>
         <!-- icono del splash. -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <!-- tiempo de la duración de la animación. -->
         <item name="windowSplashScreenAnimationDuration">300</item>
         <!-- theme posterior al splash. -->
