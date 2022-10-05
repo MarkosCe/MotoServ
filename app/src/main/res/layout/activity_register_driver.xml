@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterUserActivity">
+    android:background="@color/white_color"
+    tools:context=".RegisterDriverActivity">
 
     <include layout="@layout/action_bar_toolbar" />
 
@@ -13,8 +14,26 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10dp"
-        android:background="@color/white_color"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_user"
+            app:counterTextColor="@color/black"
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            android:layout_marginTop="10dp"
+            app:helperText="*Required"
+            android:hint="Nombre completo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -23,17 +42,53 @@
             app:startIconDrawable="@drawable/ic_user"
             app:counterEnabled="true"
             app:counterMaxLength="30"
-            android:layout_marginTop="30dp"
-            app:helperText="*required"
-            android:hint="Nombre">
-            
+            android:layout_marginTop="10dp"
+            app:helperText="*Required"
+            android:hint="RFC">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"/>
-            
+                android:inputType="text"/>
+
         </com.google.android.material.textfield.TextInputLayout>
-        
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_user"
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            android:layout_marginTop="10dp"
+            app:helperText="*Required"
+            android:hint="Curp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_user"
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            android:layout_marginTop="10dp"
+            app:helperText="*Required"
+            android:hint="Comprobante de domicilio">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:text="Hombre"
                 android:textColor="@color/primary_color" />
-            
+
         </RadioGroup>
 
         <LinearLayout

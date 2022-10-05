@@ -3,6 +3,7 @@ package com.example.motoserv;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,12 +20,20 @@ enum ProviderType {
 
 public class RegisterUserActivity extends AppCompatActivity {
 
+    SharedPreferences mPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
 
         MyToolbar.show(this, "Completar perfil", false);
+
+        mPreferences = getApplicationContext().getSharedPreferences("typeAccount", MODE_PRIVATE);
+
+        String typeAccount = mPreferences.getString("account", "notype");
+
+        Toast.makeText(this, typeAccount, Toast.LENGTH_SHORT).show();
 
         // Get the Intent that started this activity and extract the string
         /*Intent intent = getIntent();
