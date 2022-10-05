@@ -15,7 +15,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -27,7 +26,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -234,7 +232,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(ProviderType provider) {
         finish();
-        Intent intent = new Intent(LoginActivity.this, RegisterUser.class);
+        Intent intent = new Intent(LoginActivity.this, SelectAccTypeActivity.class);
         intent.putExtra(EXTRA_PROVIDER, provider.name());
         startActivity(intent);
         //Toast.makeText(this, "AAAAAAA", Toast.LENGTH_SHORT).show();

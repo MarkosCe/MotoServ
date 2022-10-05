@@ -25,4 +25,12 @@
         <!-- theme posterior al splash. -->
         <item name="postSplashScreenTheme">@style/Theme.MotoServ</item>
     </style>
+    
+    <!-- Tema para el Toolbar -->
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar" >
+
+        <item name="colorControlNormal" >@color/white_color</item>
+        <item name="titleTextColor" >@color/white_color</item>
+
+    </style>
 </resources>

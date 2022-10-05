@@ -17,15 +17,17 @@ enum ProviderType {
     GOOGLE
 }
 
-public class RegisterUser extends AppCompatActivity {
+public class RegisterUserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
 
+        MyToolbar.show(this, "Completar perfil", false);
+
         // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         String provider = intent.getStringExtra(LoginActivity.EXTRA_PROVIDER);
 
         final Button mButtonLogOut = findViewById(R.id.salir);
@@ -34,7 +36,7 @@ public class RegisterUser extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (provider != null) {
-                    Toast.makeText(RegisterUser.this, "No es nulo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterUserActivity.this, "No es nulo", Toast.LENGTH_SHORT).show();
                     Log.d("msg", "no es nulo");
                     if (provider.equals(ProviderType.FACEBOOK.name())) {
                         LoginManager.getInstance().logOut();
@@ -43,7 +45,7 @@ public class RegisterUser extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 onBackPressed();
             }
-        });
+        }); */
 
     }
 }
