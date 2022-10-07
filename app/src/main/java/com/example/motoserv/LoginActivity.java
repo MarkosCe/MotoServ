@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,9 @@ import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
 
+    SharedPreferences mPreferences;
+    SharedPreferences.Editor editor;
+
     private static final int RC_SIGN_IN = 9001;
 
     private GoogleSignInClient mGoogleSignInClient;
@@ -53,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mPreferences = getApplication().getSharedPreferences("typeProvider", MODE_PRIVATE);
+        editor = mPreferences.edit();
 
         // [START config_signin]
         // Configure Google Sign In
@@ -196,7 +203,9 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "signInWithCredential:success", Toast.LENGTH_SHORT).show();
                             //FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(ProviderType.GOOGLE);
+                            editor.putString("provider", "GOOGLE");
+                            editor.apply();
+                            updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "signInWithCredential:failure", Toast.LENGTH_SHORT).show();
@@ -219,7 +228,9 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Successs", Toast.LENGTH_SHORT).show();
                             //FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(ProviderType.FACEBOOK);
+                            editor.putString("provider", "FACEBOOK");
+                            editor.apply();
+                            updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
@@ -230,10 +241,9 @@ public class LoginActivity extends AppCompatActivity {
     }
     // [END auth_with_facebook]
 
-    private void updateUI(ProviderType provider) {
+    private void updateUI() {
         finish();
         Intent intent = new Intent(LoginActivity.this, SelectAccTypeActivity.class);
-        intent.putExtra(EXTRA_PROVIDER, provider.name());
         startActivity(intent);
         //Toast.makeText(this, "AAAAAAA", Toast.LENGTH_SHORT).show();
     }

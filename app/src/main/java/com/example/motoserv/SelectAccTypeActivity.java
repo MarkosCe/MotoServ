@@ -1,5 +1,6 @@
 package com.example.motoserv;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,10 +11,14 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-public class SelectAccTypeActivity extends AppCompatActivity {
+import com.example.motoserv.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-    SharedPreferences mPreferences;
-    SharedPreferences.Editor editor;
+public class SelectAccTypeActivity extends AppCompatActivity {
 
     private RadioButton mRbtnPass;
     private RadioButton mRbtnDriver;
@@ -24,9 +29,6 @@ public class SelectAccTypeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_acc_type);
 
         MyToolbar.show(this, "Selecciona el tipo de cuenta", false);
-
-        mPreferences = getApplication().getSharedPreferences("typeAccount", MODE_PRIVATE);
-        editor = mPreferences.edit();
 
         mRbtnPass = findViewById(R.id.rbtn_type_pass);
         mRbtnDriver = findViewById(R.id.rbtn_type_driver);
@@ -43,13 +45,9 @@ public class SelectAccTypeActivity extends AppCompatActivity {
     public void onRadioButtonClicked(View view) {
 
         if (mRbtnPass.isChecked()){
-            editor.putString("account", "cliente");
-            editor.apply();
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterUserActivity.class);
             startActivity(intent);
         }else if (mRbtnDriver.isChecked()){
-            editor.putString("account", "driver");
-            editor.apply();
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterDriverActivity.class);
             startActivity(intent);
         }else {

@@ -120,9 +120,10 @@
             android:gravity="bottom|center">
 
             <Button
+                android:id="@+id/btn_listo"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
-                android:text="Siguiente"
+                android:text="Empezar"
                 android:backgroundTint="@color/primary_color"
                 android:textColor="@color/white_color"
                 android:layout_marginBottom="20dp"/>
