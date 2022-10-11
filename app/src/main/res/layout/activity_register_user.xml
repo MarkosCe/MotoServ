@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterUserActivity">
+    tools:context=".client.RegisterClientActivity">
 
     <include layout="@layout/action_bar_toolbar" />
 
@@ -23,7 +23,7 @@
             app:startIconDrawable="@drawable/ic_user"
             app:counterEnabled="true"
             app:counterMaxLength="30"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             app:helperText="*required"
             android:hint="Nombre">
             
@@ -65,6 +65,7 @@
             android:gravity="bottom|center">
 
             <Button
+                android:id="@+id/btn_next_driver"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:text="Siguiente"

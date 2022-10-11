@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -29,7 +30,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegisterDriverActivity"
+            android:name=".driver.RegisterDriverActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -50,7 +51,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegisterUserActivity"
+            android:name=".client.RegisterClientActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

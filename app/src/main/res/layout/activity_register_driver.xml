@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_color"
-    tools:context=".RegisterDriverActivity">
+    tools:context=".driver.RegisterDriverActivity">
 
     <include layout="@layout/action_bar_toolbar" />
 
@@ -22,6 +22,11 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/ic_user"
             app:counterTextColor="@color/black"
+            app:helperTextTextColor="@color/black"
+            app:hintTextColor="@color/black"
+            android:textColorHint="@color/gray_color"
+            app:startIconTint="@color/black"
+            app:boxStrokeColor="@color/black"
             app:counterEnabled="true"
             app:counterMaxLength="30"
             android:layout_marginTop="10dp"
@@ -31,63 +36,50 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"/>
+                android:textColor="@color/black"
+                android:inputType="textPersonName" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:startIconDrawable="@drawable/ic_user"
-            app:counterEnabled="true"
-            app:counterMaxLength="30"
-            android:layout_marginTop="10dp"
-            app:helperText="*Required"
-            android:hint="RFC">
+            android:text="INE"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <Button
+            android:id="@+id/btn_foto_ine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:startIconDrawable="@drawable/ic_user"
-            app:counterEnabled="true"
-            app:counterMaxLength="30"
-            android:layout_marginTop="10dp"
-            app:helperText="*Required"
-            android:hint="Curp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+            android:text="Seleccionar foto"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/gray_color"/>
+        
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:startIconDrawable="@drawable/ic_user"
-            app:counterEnabled="true"
-            app:counterMaxLength="30"
-            android:layout_marginTop="10dp"
-            app:helperText="*Required"
-            android:hint="Comprobante de domicilio">
+            android:contentDescription="Foto ine"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comprobante de domicilio"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/btn_foto_comprob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar foto"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/gray_color"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Foto comprobante de domicilio"/>
 
         <RadioGroup
             android:layout_width="match_parent"

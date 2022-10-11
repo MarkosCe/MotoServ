@@ -1,22 +1,16 @@
 package com.example.motoserv;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.example.motoserv.models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.motoserv.client.RegisterClientActivity;
+import com.example.motoserv.driver.RegisterDriverActivity;
 
 public class SelectAccTypeActivity extends AppCompatActivity {
 
@@ -45,7 +39,7 @@ public class SelectAccTypeActivity extends AppCompatActivity {
     public void onRadioButtonClicked(View view) {
 
         if (mRbtnPass.isChecked()){
-            Intent intent = new Intent(SelectAccTypeActivity.this, RegisterUserActivity.class);
+            Intent intent = new Intent(SelectAccTypeActivity.this, RegisterClientActivity.class);
             startActivity(intent);
         }else if (mRbtnDriver.isChecked()){
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterDriverActivity.class);
