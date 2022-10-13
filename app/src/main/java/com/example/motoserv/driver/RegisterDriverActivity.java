@@ -37,13 +37,6 @@ public class RegisterDriverActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mButtonSelectIne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
         final Button button = findViewById(R.id.btn_listo);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
