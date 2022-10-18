@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.motoserv.driver.RegisterDriverActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
          * redirigiremos al usuario al home
          */
         splashScreen.setKeepOnScreenCondition(() -> true );
-        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, RegisterDriverActivity.class));
         finish();
     }
 }

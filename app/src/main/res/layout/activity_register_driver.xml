@@ -55,11 +55,12 @@
             android:text="Seleccionar foto"
             android:textColor="@color/black"
             android:backgroundTint="@color/gray_color"/>
-        
+
         <ImageView
+            android:id="@+id/image_view_ine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="Foto ine"/>
+            android:contentDescription="Foto comprobante de domicilio"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -77,6 +78,7 @@
             android:backgroundTint="@color/gray_color"/>
 
         <ImageView
+            android:id="@+id/image_view_cdomicilio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="Foto comprobante de domicilio"/>
