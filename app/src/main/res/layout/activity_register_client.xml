@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white_color"
     tools:context=".client.RegisterClientActivity">
 
     <include layout="@layout/action_bar_toolbar" />
@@ -13,28 +14,53 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10dp"
-        android:background="@color/white_color"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <io.github.florent37.shapeofview.shapes.CircleView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:elevation="4dp"
+            app:shape_circle_borderColor="@color/gray_color"
+            app:shape_circle_borderWidth="2dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/profile_photo"
+                android:contentDescription="Profile picture"/>
+
+        </io.github.florent37.shapeofview.shapes.CircleView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/ic_user"
+            app:counterTextColor="@color/black"
+            app:helperTextTextColor="@color/black"
+            app:hintTextColor="@color/black"
+            android:textColorHint="@color/gray_color"
+            app:startIconTint="@color/black"
+            app:boxStrokeColor="@color/black"
             app:counterEnabled="true"
             app:counterMaxLength="30"
-            android:layout_marginTop="10dp"
-            app:helperText="*required"
-            android:hint="Nombre">
-            
+            android:layout_marginTop="20dp"
+            app:helperText="*Required"
+            android:hint="Nombre completo">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_name_client"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"/>
-            
+                android:textColor="@color/black"
+                android:inputType="textPersonName" />
+
         </com.google.android.material.textfield.TextInputLayout>
-        
+
         <RadioGroup
+            android:id="@+id/groupbtn_gender_client"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -43,19 +69,19 @@
             >
 
             <RadioButton
-                android:id="@+id/radio_mujer"
+                android:id="@+id/radio_mujer_client"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mujer"
                 android:layout_marginEnd="20dp"
                 android:textColor="@color/primary_color" />
             <RadioButton
-                android:id="@+id/radio_hombre"
+                android:id="@+id/radio_hombre_client"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hombre"
                 android:textColor="@color/primary_color" />
-            
+
         </RadioGroup>
 
         <LinearLayout
@@ -65,10 +91,10 @@
             android:gravity="bottom|center">
 
             <Button
-                android:id="@+id/btn_next_driver"
+                android:id="@+id/btn_empezar"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
-                android:text="Siguiente"
+                android:text="Empezar"
                 android:backgroundTint="@color/primary_color"
                 android:textColor="@color/white_color"
                 android:layout_marginBottom="20dp"/>

@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.motoserv.client.MapClientActivity;
+import com.example.motoserv.driver.MapDriverActivity;
+import com.example.motoserv.providers.UserProvider;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -38,20 +41,17 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences mPreferences;
     SharedPreferences.Editor editor;
 
+    UserProvider mUserProvider;
+
     private static final int RC_SIGN_IN = 9001;
 
     private GoogleSignInClient mGoogleSignInClient;
-
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("message");
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
 
     private CallbackManager mCallbackManager;
-
-    public static final String EXTRA_PROVIDER = "com.example.motoserv.PROVIDER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +61,20 @@ public class LoginActivity extends AppCompatActivity {
         mPreferences = getApplication().getSharedPreferences("typeProvider", MODE_PRIVATE);
         editor = mPreferences.edit();
 
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
+
+        mUserProvider = new UserProvider();
+
         // [START config_signin]
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END config_signin]
-
         mCallbackManager = CallbackManager.Factory.create();
 
         final Button mButtonFacebook = findViewById(R.id.btn_facebook);
@@ -109,21 +113,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        myRef.setValue("Hello, World!").addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful())
-                    Toast.makeText(LoginActivity.this, "ADD:success", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(LoginActivity.this, "ADD: Failure", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // [START initialize_auth]
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
-
         // [START initialize_fblogin]
         // Initialize Facebook Login button
         /*LoginButton loginButton = findViewById(R.id.button_sign_in);
@@ -159,8 +148,24 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            String type = mPreferences.getString("typeAcc", "");
+            if (type.equals("Client")){
+                Intent intent = new Intent(LoginActivity.this, MapClientActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }else if (type.equals("Driver")){
+                Intent intent = new Intent(LoginActivity.this, MapDriverActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(LoginActivity.this, SelectAccTypeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        }
         // Check for existing Google Sign In account, if the user is already signed in
-// the GoogleSignInAccount will be non-null.
+        // the GoogleSignInAccount will be non-null.
         //GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         //updateUI(account);
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -202,7 +207,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "signInWithCredential:success", Toast.LENGTH_SHORT).show();
-                            //FirebaseUser user = mAuth.getCurrentUser();
+                            //FirebaseUser user = mAuth.getCurrentUser()
                             editor.putString("provider", "GOOGLE");
                             editor.apply();
                             updateUI();
@@ -217,8 +222,6 @@ public class LoginActivity extends AppCompatActivity {
 
     // [START auth_with_facebook]
     private void handleFacebookAccessToken(AccessToken token) {
-        //Log.d(TAG, "handleFacebookAccessToken:" + token);
-
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -245,6 +248,5 @@ public class LoginActivity extends AppCompatActivity {
         finish();
         Intent intent = new Intent(LoginActivity.this, SelectAccTypeActivity.class);
         startActivity(intent);
-        //Toast.makeText(this, "AAAAAAA", Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,17 +1,19 @@
 package com.example.motoserv.models;
 
-public class User {
+public class Client {
 
     String id;
+    String provider;
     String name;
     String gender;
 
-    public User(){
+    public Client(){
 
     }
 
-    public User(String id, String name, String gender) {
+    public Client(String id, String provider, String name, String gender) {
         this.id = id;
+        this.provider = provider;
         this.name = name;
         this.gender = gender;
     }
@@ -22,6 +24,14 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 
     public String getName() {

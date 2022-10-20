@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
          * redirigiremos al usuario al home
          */
         splashScreen.setKeepOnScreenCondition(() -> true );
-        startActivity(new Intent(this, RegisterDriverActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 }

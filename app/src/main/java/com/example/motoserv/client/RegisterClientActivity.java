@@ -8,58 +8,87 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
-import com.example.motoserv.driver.MapDriverActivity;
-import com.example.motoserv.driver.RegisterDriverActivity;
-import com.example.motoserv.models.User;
+import com.example.motoserv.models.Client;
+import com.example.motoserv.providers.ClientProvider;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterClientActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    TextInputEditText mTextInputUserName;
+    RadioGroup mGender;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabase = database.getReference();
+    SharedPreferences mPreferences;
+
+    ClientProvider mClientProvider;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_user);
+        setContentView(R.layout.activity_register_client);
 
         MyToolbar.show(this, "Completar registro", false);
 
+        mClientProvider = new ClientProvider();
         mAuth = FirebaseAuth.getInstance();
+        mPreferences = getApplication().getSharedPreferences("typeProvider", MODE_PRIVATE);
 
-        final Button button = findViewById(R.id.btn_next_driver);
+        mTextInputUserName = findViewById(R.id.input_name_client);
+        mGender = findViewById(R.id.groupbtn_gender_client);
+
+        final Button button = findViewById(R.id.btn_empezar);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String id = mAuth.getCurrentUser().getUid();
-                saveUser(id);
+                registerUserInfo(id);
             }
         });
     }
 
-    void saveUser(String id) {
-        User user = new User();
-        user.setName("Prueba");
-        mDatabase.child("Users").child("Pasajeros").child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+    void registerUserInfo(String id) {
+        String userName = mTextInputUserName.getText().toString();
+        if (!userName.equals("") && mGender.getCheckedRadioButtonId() != -1) {
+            Client client = new Client();
+            client.setId(id);
+            client.setProvider(mPreferences.getString("provider", ""));
+            client.setName(userName);
+            client.setGender(getGender());
+            create(client);
+        }
+    }
+
+    void create(Client client){
+        mClientProvider.create(client).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(RegisterClientActivity.this, "Correcto", Toast.LENGTH_SHORT).show();
+                if (task.isSuccessful()){
+                    Toast.makeText(RegisterClientActivity.this, "Registradooo cliente", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterClientActivity.this, MapClientActivity.class);
                     startActivity(intent);
-                } else {
-                    Toast.makeText(RegisterClientActivity.this, "Algo falló", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(RegisterClientActivity.this, "Algo salío mal cliente", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
+    public String getGender(){
+        String gender = "";
+        if (mGender.getCheckedRadioButtonId() == R.id.radio_hombre_client){
+            gender = "Male";
+        }else{
+            gender = "Female";
+        }
+        return gender;
+    }
+
 }

@@ -4,12 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".client.MapClientActivity">
+
+    <include layout="@layout/action_bar_toolbar" />
 
     <fragment
         android:id="@+id/map_client"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/btn_logout_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white_color"
+        android:text="Salir" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

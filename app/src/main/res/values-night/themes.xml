@@ -13,4 +13,12 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- Tema para el Toolbar -->
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar" >
+
+        <item name="colorControlNormal" >@color/white_color</item>
+        <item name="titleTextColor" >@color/white_color</item>
+
+    </style>
 </resources>

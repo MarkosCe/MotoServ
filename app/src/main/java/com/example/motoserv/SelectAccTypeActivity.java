@@ -3,6 +3,7 @@ package com.example.motoserv;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,9 @@ public class SelectAccTypeActivity extends AppCompatActivity {
     private RadioButton mRbtnPass;
     private RadioButton mRbtnDriver;
 
+    SharedPreferences mPreferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +30,9 @@ public class SelectAccTypeActivity extends AppCompatActivity {
 
         mRbtnPass = findViewById(R.id.rbtn_type_pass);
         mRbtnDriver = findViewById(R.id.rbtn_type_driver);
+
+        mPreferences = getApplication().getSharedPreferences("typeAccount", MODE_PRIVATE);
+        editor = mPreferences.edit();
 
         Button btnNext = findViewById(R.id.btn_next);
         btnNext.setOnClickListener(new View.OnClickListener() {
@@ -37,11 +44,14 @@ public class SelectAccTypeActivity extends AppCompatActivity {
 
     }
     public void onRadioButtonClicked(View view) {
-
         if (mRbtnPass.isChecked()){
+            editor.putString("typeAcc", "Client");
+            editor.apply();
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterClientActivity.class);
             startActivity(intent);
         }else if (mRbtnDriver.isChecked()){
+            editor.putString("typeAcc", "Driver");
+            editor.apply();
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterDriverActivity.class);
             startActivity(intent);
         }else {
