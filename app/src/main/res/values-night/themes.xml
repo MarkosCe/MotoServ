@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/primary_color</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white_color</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
@@ -15,10 +15,4 @@
     </style>
 
     <!-- Tema para el Toolbar -->
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar" >
-
-        <item name="colorControlNormal" >@color/white_color</item>
-        <item name="titleTextColor" >@color/white_color</item>
-
-    </style>
 </resources>

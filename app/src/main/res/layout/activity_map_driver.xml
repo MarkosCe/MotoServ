@@ -16,10 +16,13 @@
         android:name="com.google.android.gms.maps.SupportMapFragment" />
 
     <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_connect_driver"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:textColor="@color/white_color"
-        android:text="Salir" />
+        android:backgroundTint="@color/primary_color"
+        android:text="Conectar"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="30dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

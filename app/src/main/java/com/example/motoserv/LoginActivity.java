@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mPreferences = getApplication().getSharedPreferences("typeProvider", MODE_PRIVATE);
+        mPreferences = getApplication().getSharedPreferences("preferences", MODE_PRIVATE);
         editor = mPreferences.edit();
 
         // Initialize Firebase Auth
@@ -159,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }else {
+                Toast.makeText(this, type+" jaja", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, SelectAccTypeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

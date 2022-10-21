@@ -55,8 +55,8 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/ic_logo_png"
             android:contentDescription="logo_moto"
             android:layout_gravity="center" />
@@ -101,7 +101,7 @@
 
                 <Button
                     android:id="@+id/btn_facebook"
-                    android:layout_width="200dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:backgroundTint="@color/white_color"
@@ -112,7 +112,7 @@
 
                 <Button
                     android:id="@+id/btn_signin_google"
-                    android:layout_width="200dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"

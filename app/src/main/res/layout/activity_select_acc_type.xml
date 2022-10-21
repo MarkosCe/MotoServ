@@ -30,11 +30,11 @@
                 android:text="Pasajero"
                 android:textColor="@color/black"
                 android:button="@android:color/transparent"
-                android:drawableTop="@drawable/ic_facebook"
+                android:drawableTop="@drawable/ic_client"
                 android:paddingTop="30dp"
                 android:background="@drawable/type_selector"
                 android:textAlignment="center"
-                android:textSize="18sp"/>
+                android:textSize="25sp"/>
             <RadioButton
                 android:id="@+id/rbtn_type_driver"
                 android:layout_width="match_parent"
@@ -42,12 +42,12 @@
                 android:text="Conductor"
                 android:textColor="@color/black"
                 android:button="@android:color/transparent"
-                android:drawableTop="@drawable/ic_google"
+                android:drawableTop="@drawable/ic_driver"
                 android:paddingTop="30dp"
                 android:background="@drawable/type_selector"
                 android:layout_marginTop="30dp"
                 android:textAlignment="center"
-                android:textSize="18sp"/>
+                android:textSize="25sp"/>
 
         </RadioGroup>
 

@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.motoserv.client.MapClientActivity;
 import com.example.motoserv.client.RegisterClientActivity;
+import com.example.motoserv.driver.MapDriverActivity;
 import com.example.motoserv.driver.RegisterDriverActivity;
 
 public class SelectAccTypeActivity extends AppCompatActivity {
@@ -31,7 +33,7 @@ public class SelectAccTypeActivity extends AppCompatActivity {
         mRbtnPass = findViewById(R.id.rbtn_type_pass);
         mRbtnDriver = findViewById(R.id.rbtn_type_driver);
 
-        mPreferences = getApplication().getSharedPreferences("typeAccount", MODE_PRIVATE);
+        mPreferences = getApplication().getSharedPreferences("preferences", MODE_PRIVATE);
         editor = mPreferences.edit();
 
         Button btnNext = findViewById(R.id.btn_next);
@@ -47,11 +49,15 @@ public class SelectAccTypeActivity extends AppCompatActivity {
         if (mRbtnPass.isChecked()){
             editor.putString("typeAcc", "Client");
             editor.apply();
+            /*Intent intent = new Intent(SelectAccTypeActivity.this, MapClientActivity.class);
+            startActivity(intent);*/
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterClientActivity.class);
             startActivity(intent);
         }else if (mRbtnDriver.isChecked()){
             editor.putString("typeAcc", "Driver");
             editor.apply();
+            /*Intent intent = new Intent(SelectAccTypeActivity.this, MapDriverActivity.class);
+            startActivity(intent);*/
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterDriverActivity.class);
             startActivity(intent);
         }else {
