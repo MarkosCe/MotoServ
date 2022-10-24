@@ -100,6 +100,8 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
 
     private GoogleMap.OnCameraIdleListener mCameraListener;
 
+    Button mButtonRequestDriver;
+
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
 
@@ -116,6 +118,14 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_client);
         mapFragment.getMapAsync(this);
+
+        mButtonRequestDriver = findViewById(R.id.btn_request_driver);
+        mButtonRequestDriver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestDriver();
+            }
+        });
 
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
 
@@ -157,6 +167,19 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
 
         // Get the Intent that started this activity and extract the string
         mPreferences = getApplicationContext().getSharedPreferences("typeProvider", MODE_PRIVATE);
+    }
+
+    private void requestDriver(){
+        if (mOriginLocation != null && mDestinationLocation != null){
+            Intent intent = new Intent(MapClientActivity.this, DetailRequestActivity.class);
+            intent.putExtra("origin_lat", mOriginLocation.latitude);
+            intent.putExtra("origin_lng", mOriginLocation.longitude);
+            intent.putExtra("destination_lat", mDestinationLocation.latitude);
+            intent.putExtra("destination_lng", mDestinationLocation.longitude);
+            startActivity(intent);
+        }else {
+            Toast.makeText(this, "Selecciona tu origen y tu destino", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void instanceAutocompleteOrigin(){

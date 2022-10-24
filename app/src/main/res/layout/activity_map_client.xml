@@ -63,4 +63,14 @@
         android:src="@drawable/ic_location_c"
         android:layout_gravity="center"/>
 
+    <Button
+        android:id="@+id/btn_request_driver"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white_color"
+        android:backgroundTint="@color/primary_color"
+        android:text="Solicitar viaje"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="30dp"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
