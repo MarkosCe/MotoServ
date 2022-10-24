@@ -90,4 +90,7 @@ dependencies {
 
     //Dependency for google places autocomplete
     implementation 'com.google.android.libraries.places:places:2.6.0'
+
+    //Dependency for map utils
+    implementation 'com.google.maps.android:android-maps-utils:2.3.0'
 }
