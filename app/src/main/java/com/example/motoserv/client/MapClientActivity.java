@@ -31,7 +31,10 @@ import com.example.motoserv.LoginActivity;
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
 import com.example.motoserv.driver.MapDriverActivity;
+import com.example.motoserv.providers.GeofireProvider;
 import com.facebook.login.LoginManager;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -49,6 +52,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapClientActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -64,6 +71,12 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     private LocationRequest mLocationRequest;
     private LocationCallback mLocationCallback;
 
+    private GeofireProvider mGeofireProvider;
+    private LatLng mCurrentLocation;
+
+    private List<Marker> mDriversMarkers = new ArrayList<>();
+    private boolean mIsFirstTime = true;
+
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
 
@@ -73,6 +86,8 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         setContentView(R.layout.activity_map_client);
 
         MyToolbar.show(this, "Cliente", false);
+
+        mGeofireProvider = new GeofireProvider();
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -101,6 +116,9 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
                 }
                 for (Location location : locationResult.getLocations()) {
                     if (getApplicationContext() != null){
+
+                        mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
                         if (mMarker != null){
                             mMarker.remove();
                         }
@@ -115,6 +133,10 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
                                         .zoom(16f)
                                         .build()
                         ));
+                        if (mIsFirstTime){
+                            mIsFirstTime = false;
+                            getActiveDrivers();
+                        }
                     }
                 }
             }
@@ -122,6 +144,64 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
 
         // Get the Intent that started this activity and extract the string
         mPreferences = getApplicationContext().getSharedPreferences("typeProvider", MODE_PRIVATE);
+    }
+
+    private void getActiveDrivers(){
+        mGeofireProvider.getActiveDrivers(mCurrentLocation).addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+                // Se añaden los marcadores de los conductores que se van conectando
+                for (Marker marker: mDriversMarkers){
+                    if (marker.getTag() != null){
+                        if (marker.getTag().equals(key)){
+                            return;
+                        }
+                    }
+                }
+
+                LatLng driverLocation = new LatLng(location.latitude, location.longitude);
+                Marker marker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("Disponible").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_driver)));
+                marker.setTag(key);
+                mDriversMarkers.add(marker);
+
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+                //Cuando un conductor se desconecta
+                for (Marker marker: mDriversMarkers){
+                    if (marker.getTag() != null){
+                        if (marker.getTag().equals(key)){
+                            marker.remove();
+                            mDriversMarkers.remove(marker);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+                //Actualizar la posicion de cada conductor
+                for (Marker marker: mDriversMarkers){
+                    if (marker.getTag() != null){
+                        if (marker.getTag().equals(key)){
+                            marker.setPosition(new LatLng(location.latitude, location.longitude));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+
+            }
+        });
     }
 
     @Override

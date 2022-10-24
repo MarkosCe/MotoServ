@@ -85,4 +85,9 @@ dependencies {
     //Dependency for play services location
     implementation 'com.google.android.gms:play-services-location:21.0.0'
 
+    //Dependency for geofire
+    implementation 'com.firebase:geofire-android:3.2.0'
+
+    //Dependency for google places autocomplete
+    implementation 'com.google.android.libraries.places:places:2.6.0'
 }

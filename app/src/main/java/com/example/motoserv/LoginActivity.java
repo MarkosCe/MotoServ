@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.example.motoserv.client.MapClientActivity;
 import com.example.motoserv.driver.MapDriverActivity;
-import com.example.motoserv.providers.UserProvider;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -31,8 +30,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
@@ -40,8 +37,6 @@ public class LoginActivity extends AppCompatActivity {
 
     SharedPreferences mPreferences;
     SharedPreferences.Editor editor;
-
-    UserProvider mUserProvider;
 
     private static final int RC_SIGN_IN = 9001;
 
@@ -64,8 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
-
-        mUserProvider = new UserProvider();
 
         // [START config_signin]
         // Configure Google Sign In

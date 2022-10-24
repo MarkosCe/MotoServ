@@ -11,9 +11,25 @@
 
     <fragment
         android:id="@+id/map_client"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+    
+    <androidx.cardview.widget.CardView
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@color/white_color"
+        app:cardCornerRadius="15dp">
+
+        <fragment
+            android:id="@+id/places_autocomplete_origin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment" />
+
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/btn_connect_client"

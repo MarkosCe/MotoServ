@@ -15,7 +15,6 @@ import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
 import com.example.motoserv.models.Driver;
 import com.example.motoserv.providers.DriverProvider;
-import com.example.motoserv.providers.UserProvider;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;

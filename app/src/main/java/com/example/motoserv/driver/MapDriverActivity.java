@@ -30,6 +30,8 @@ import com.example.motoserv.LoginActivity;
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
 import com.example.motoserv.client.MapClientActivity;
+import com.example.motoserv.providers.AuthProvider;
+import com.example.motoserv.providers.GeofireProvider;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -62,6 +64,10 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     private LocationRequest mLocationRequest;
     private LocationCallback mLocationCallback;
 
+    private LatLng mCurrentLocation;
+    private GeofireProvider mGeofireProvider;
+    private AuthProvider mAuthProvider;
+
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
 
@@ -71,6 +77,9 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         setContentView(R.layout.activity_map_driver);
 
         MyToolbar.show(this, "Mapa", false);
+
+        mGeofireProvider = new GeofireProvider();
+        mAuthProvider = new AuthProvider();
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -99,6 +108,9 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                 }
                 for (Location location : locationResult.getLocations()) {
                     if (getApplicationContext() != null){
+
+                        mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
                         if (mMarker != null){
                             mMarker.remove();
                         }
@@ -113,6 +125,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                                         .zoom(16f)
                                         .build()
                         ));
+                        updateLocation();
                     }
                 }
             }
@@ -121,6 +134,12 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         // Get the Intent that started this activity and extract the string
         mPreferences = getApplicationContext().getSharedPreferences("typeProvider", MODE_PRIVATE);
 
+    }
+
+    private void updateLocation(){
+        if (mAuthProvider.existSession() && mCurrentLocation != null) {
+            mGeofireProvider.saveLocation(mAuthProvider.getId(), mCurrentLocation);
+        }
     }
 
     @Override
@@ -144,8 +163,6 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                 .setFastestInterval(5000)
                 .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
                 .setSmallestDisplacement(5);
-
-        startLocation();
     }
 
     @SuppressLint("MissingPermission")
@@ -201,10 +218,15 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     private void disconnect(){
-        mButtonConnect.setText("Conectar");
-        isConnect = false;
         if (mFusedLocation != null){
+            mButtonConnect.setText("Conectar");
+            isConnect = false;
             mFusedLocation.removeLocationUpdates(mLocationCallback);
+            if (mAuthProvider.existSession()){
+                mGeofireProvider.removeLocation(mAuthProvider.getId());
+            }
+        }else {
+            Toast.makeText(this, "No te puedes desconectar", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -266,6 +288,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     void logOut(){
+        disconnect();
         String provider= mPreferences.getString("provider", "notype");
         if (provider != null) {
             Toast.makeText(MapDriverActivity.this, "No es nulo", Toast.LENGTH_SHORT).show();
