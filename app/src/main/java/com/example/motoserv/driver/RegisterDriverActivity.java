@@ -40,7 +40,7 @@ public class RegisterDriverActivity extends AppCompatActivity {
 
         mDriverProvider = new DriverProvider();
 
-        mPreferences = getApplication().getSharedPreferences("typeProvider", MODE_PRIVATE);
+        mPreferences = getApplication().getSharedPreferences("preferences", MODE_PRIVATE);
 
         mTextInputUserName = findViewById(R.id.input_user_name);
         mGender = findViewById(R.id.group_button_gender);

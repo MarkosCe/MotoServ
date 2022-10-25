@@ -40,7 +40,7 @@ public class RegisterClientActivity extends AppCompatActivity {
 
         mClientProvider = new ClientProvider();
         mAuth = FirebaseAuth.getInstance();
-        mPreferences = getApplication().getSharedPreferences("typeProvider", MODE_PRIVATE);
+        mPreferences = getApplication().getSharedPreferences("preferences", MODE_PRIVATE);
 
         mTextInputUserName = findViewById(R.id.input_name_client);
         mGender = findViewById(R.id.groupbtn_gender_client);

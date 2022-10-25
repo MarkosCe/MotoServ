@@ -143,6 +143,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
             String type = mPreferences.getString("typeAcc", "");
+            if (type == null)
+                return;
             if (type.equals("Client")){
                 Intent intent = new Intent(LoginActivity.this, MapClientActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -230,8 +232,7 @@ public class LoginActivity extends AppCompatActivity {
                             updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

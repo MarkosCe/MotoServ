@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
@@ -24,9 +25,14 @@ public class DetailRequestActivity extends AppCompatActivity implements OnMapRea
     private double mExtraOriginLng;
     private double mExtraDestinationLat;
     private double mExtraDestinationLng;
+    private String mExtraOrigin;
+    private String mExtraDestination;
 
     private LatLng mOriginlatlng;
     private LatLng mDestinationLatlng;
+
+    TextView mTextViewOrigin;
+    TextView mTextViewDestination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +50,16 @@ public class DetailRequestActivity extends AppCompatActivity implements OnMapRea
         mExtraOriginLng = getIntent().getDoubleExtra("origin_lng", 0);
         mExtraDestinationLat = getIntent().getDoubleExtra("destination_lat", 0);
         mExtraDestinationLng = getIntent().getDoubleExtra("destination_lng", 0);
+        mExtraOrigin = getIntent().getStringExtra("origin");
+        mExtraDestination = getIntent().getStringExtra("destination");
 
         mOriginlatlng = new LatLng(mExtraOriginLat, mExtraOriginLng);
         mDestinationLatlng = new LatLng(mExtraDestinationLat, mExtraDestinationLng);
+
+        mTextViewOrigin = findViewById(R.id.text_view_origin);
+        mTextViewDestination = findViewById(R.id.text_view_destination);
+        mTextViewOrigin.setText(mExtraOrigin);
+        mTextViewDestination.setText(mExtraDestination);
     }
 
     @Override
