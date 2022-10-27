@@ -3,19 +3,36 @@ package com.example.motoserv.client;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
+import com.example.motoserv.providers.GoogleApiProvider;
+import com.example.motoserv.utils.DecodePoints;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.SquareCap;
+import com.google.maps.android.PolyUtil;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailRequestActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -33,6 +50,13 @@ public class DetailRequestActivity extends AppCompatActivity implements OnMapRea
 
     TextView mTextViewOrigin;
     TextView mTextViewDestination;
+    TextView mTextViewTime;
+    TextView mTextViewDistance;
+
+    private GoogleApiProvider mGoogleApiProvider;
+
+    private List<LatLng> mPolylineList;
+    private PolylineOptions mPolylineOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +82,54 @@ public class DetailRequestActivity extends AppCompatActivity implements OnMapRea
 
         mTextViewOrigin = findViewById(R.id.text_view_origin);
         mTextViewDestination = findViewById(R.id.text_view_destination);
+        mTextViewTime = findViewById(R.id.text_view_time);
+        mTextViewDistance = findViewById(R.id.text_view_distance);
         mTextViewOrigin.setText(mExtraOrigin);
         mTextViewDestination.setText(mExtraDestination);
+
+        mGoogleApiProvider = new GoogleApiProvider();
+    }
+
+    private void drawRoute(){
+        mGoogleApiProvider.getDirections(mOriginlatlng, mDestinationLatlng).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body());
+                    JSONArray jsonArray = jsonObject.getJSONArray("routes");
+                    JSONObject route = jsonArray.getJSONObject(0);
+                    JSONObject polylines = route.getJSONObject("overview_polyline");
+                    String points = polylines.getString("points");
+                    //mPolylineList = PolyUtil.decode(points);
+                    mPolylineList = DecodePoints.decodePoly(points);
+                    mPolylineOptions = new PolylineOptions();
+                    mPolylineOptions.color(Color.DKGRAY);
+                    mPolylineOptions.width(8f);
+                    mPolylineOptions.startCap(new SquareCap());
+                    mPolylineOptions.jointType(JointType.ROUND);
+                    mPolylineOptions.addAll(mPolylineList);
+                    mMap.addPolyline(mPolylineOptions);
+
+                    JSONArray legs = route.getJSONArray("legs");
+                    JSONObject leg = legs.getJSONObject(0);
+                    JSONObject distance = leg.getJSONObject("distance");
+                    JSONObject duration = leg.getJSONObject("duration");
+                    String distanceText = distance.getString("text");
+                    String durationText = duration.getString("text");
+
+                    mTextViewTime.setText(durationText);
+                    mTextViewDistance.setText(distanceText);
+
+                }catch (Exception e){
+                    Log.d("error", "Error encontrado " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -77,5 +147,7 @@ public class DetailRequestActivity extends AppCompatActivity implements OnMapRea
                         .zoom(14f)
                         .build()
         ));
+
+        drawRoute();
     }
 }
