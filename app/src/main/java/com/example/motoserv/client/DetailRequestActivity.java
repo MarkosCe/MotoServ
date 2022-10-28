@@ -3,9 +3,12 @@ package com.example.motoserv.client;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.motoserv.MyToolbar;
@@ -53,6 +56,8 @@ public class DetailRequestActivity extends AppCompatActivity implements OnMapRea
     TextView mTextViewTime;
     TextView mTextViewDistance;
 
+    Button mButtonRequest;
+
     private GoogleApiProvider mGoogleApiProvider;
 
     private List<LatLng> mPolylineList;
@@ -84,10 +89,25 @@ public class DetailRequestActivity extends AppCompatActivity implements OnMapRea
         mTextViewDestination = findViewById(R.id.text_view_destination);
         mTextViewTime = findViewById(R.id.text_view_time);
         mTextViewDistance = findViewById(R.id.text_view_distance);
+        mButtonRequest = findViewById(R.id.btn_request_now);
+
         mTextViewOrigin.setText(mExtraOrigin);
         mTextViewDestination.setText(mExtraDestination);
 
+        mButtonRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToRequestDriver();
+            }
+        });
+
         mGoogleApiProvider = new GoogleApiProvider();
+    }
+
+    private void goToRequestDriver(){
+        Intent intent = new Intent(DetailRequestActivity.this, RequestDriverActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void drawRoute(){
