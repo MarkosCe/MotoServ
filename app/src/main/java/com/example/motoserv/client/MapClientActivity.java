@@ -36,7 +36,9 @@ import com.example.motoserv.LoginActivity;
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
 import com.example.motoserv.driver.MapDriverActivity;
+import com.example.motoserv.providers.AuthProvider;
 import com.example.motoserv.providers.GeofireProvider;
+import com.example.motoserv.providers.TokenProvider;
 import com.facebook.login.LoginManager;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryEventListener;
@@ -86,6 +88,9 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     private GeofireProvider mGeofireProvider;
     private LatLng mCurrentLocation;
 
+    private AuthProvider mAuth;
+    private TokenProvider mTokenProvider;
+
     private List<Marker> mDriversMarkers = new ArrayList<>();
     private boolean mIsFirstTime = true;
 
@@ -112,7 +117,11 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
 
         MyToolbar.show(this, "Cliente", false);
 
+        mAuth = new AuthProvider();
+
         mGeofireProvider = new GeofireProvider();
+
+        mTokenProvider = new TokenProvider();
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -164,6 +173,9 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         instanceAutocompleteOrigin();
         instanceAutocompleteDestination();
         onCameraMove();
+
+        //generate token
+        generateToken();
 
         // Get the Intent that started this activity and extract the string
         mPreferences = getApplicationContext().getSharedPreferences("typeProvider", MODE_PRIVATE);
@@ -256,7 +268,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     private void getActiveDrivers(){
-        mGeofireProvider.getActiveDrivers(mCurrentLocation).addGeoQueryEventListener(new GeoQueryEventListener() {
+        mGeofireProvider.getActiveDrivers(mCurrentLocation, 1).addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
                 // Se añaden los marcadores de los conductores que se van conectando
@@ -466,5 +478,9 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(MapClientActivity.this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    private void generateToken(){
+        mTokenProvider.create(mAuth.getId());
     }
 }

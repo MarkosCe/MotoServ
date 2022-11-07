@@ -67,6 +67,9 @@ dependencies {
     // Dependency for the Cloud Storage library
     implementation 'com.google.firebase:firebase-storage'
 
+    //Dependency for firebase cloud messaging
+    implementation 'com.google.firebase:firebase-messaging:23.1.0'
+
     //Dependency for compressor image file
     implementation 'id.zelory:compressor:2.1.1'
 

@@ -32,6 +32,7 @@ import com.example.motoserv.R;
 import com.example.motoserv.client.MapClientActivity;
 import com.example.motoserv.providers.AuthProvider;
 import com.example.motoserv.providers.GeofireProvider;
+import com.example.motoserv.providers.TokenProvider;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -67,6 +68,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     private LatLng mCurrentLocation;
     private GeofireProvider mGeofireProvider;
     private AuthProvider mAuthProvider;
+    private TokenProvider mTokenProvider;
 
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
@@ -80,6 +82,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
 
         mGeofireProvider = new GeofireProvider();
         mAuthProvider = new AuthProvider();
+        mTokenProvider = new TokenProvider();
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -130,6 +133,9 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                 }
             }
         };
+
+        //generate token
+        generateToken();
 
         // Get the Intent that started this activity and extract the string
         mPreferences = getApplicationContext().getSharedPreferences("typeProvider", MODE_PRIVATE);
@@ -299,5 +305,9 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(MapDriverActivity.this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    private void generateToken(){
+        mTokenProvider.create(mAuthProvider.getId());
     }
 }
