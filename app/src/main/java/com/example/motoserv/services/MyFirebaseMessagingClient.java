@@ -34,8 +34,11 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
     }
 
     private void showNotification(String title, String body){
+
         PendingIntent intent = PendingIntent.getActivity(getBaseContext(), 0, new Intent(), PendingIntent.FLAG_ONE_SHOT);
+
         NotificacionHelper notificacionHelper = new NotificacionHelper(getBaseContext());
+
         Notification.Builder builder = notificacionHelper.getNotification(title, body, intent);
         notificacionHelper.getManager().notify(1, builder.build());
     }
