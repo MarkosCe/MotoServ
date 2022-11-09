@@ -58,6 +58,7 @@ public class NotificacionHelper extends ContextWrapper {
                 .setAutoCancel(true)
                 .setContentIntent(intent)
                 //.setSound(soundUri, audioAttributes)
-                .setSmallIcon(R.drawable.ic_notification);
+                .setSmallIcon(R.drawable.ic_notification)
+                .setStyle(new Notification.BigTextStyle().bigText(body).setBigContentTitle(title));
     }
 }
