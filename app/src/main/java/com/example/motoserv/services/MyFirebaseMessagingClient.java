@@ -1,18 +1,25 @@
 package com.example.motoserv.services;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
+import com.example.motoserv.R;
 import com.example.motoserv.channel.NotificacionHelper;
+import com.example.motoserv.receivers.AcceptReceiver;
+import com.example.motoserv.receivers.CancelReceiver;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
 
 public class MyFirebaseMessagingClient extends FirebaseMessagingService {
+
+    private static final int NOTIFICATION_CODE = 500;
 
     @Override
     public void onNewToken(@NonNull String token) {
@@ -29,7 +36,12 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         String body = data.get("body");
 
         if (title != null){
-            showNotification(title, body);
+            if (title.contains("Nuevo viaje")){
+                String idClient = data.get("idClient");
+                showNotificationActions(title, body, idClient);
+            }else {
+                showNotification(title, body);
+            }
         }
     }
 
@@ -41,5 +53,40 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
 
         Notification.Builder builder = notificacionHelper.getNotification(title, body, intent);
         notificacionHelper.getManager().notify(1, builder.build());
+    }
+
+    private void showNotificationActions(String title, String body, String idClient){
+
+        //Notification action: aceptar
+        Intent acceptIntent = new Intent(this, AcceptReceiver.class);
+        acceptIntent.putExtra("idClient", idClient);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent acceptPendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_CODE, acceptIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification.Action acceptAction = new Notification.Action.Builder(
+                R.mipmap.ic_launcher,
+                "Aceptar",
+                acceptPendingIntent
+        ).build();
+        /*NotificationCompat.Action acceptAction = new NotificationCompat.Action.Builder(
+                R.mipmap.ic_launcher,
+                "Aceptar",
+                acceptPendingIntent
+        ).build();*/
+
+        //Notification action: rechazar
+        Intent cancelIntent = new Intent(this, CancelReceiver.class);
+        cancelIntent.putExtra("idClient", idClient);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_CODE, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification.Action cancelAction = new Notification.Action.Builder(
+                R.mipmap.ic_launcher,
+                "Rechazar",
+                cancelPendingIntent
+        ).build();
+
+        NotificacionHelper notificacionHelper = new NotificacionHelper(getBaseContext());
+
+        Notification.Builder builder = notificacionHelper.getNotificationActions(title, body, acceptAction, cancelAction);
+        notificacionHelper.getManager().notify(2, builder.build());
     }
 }

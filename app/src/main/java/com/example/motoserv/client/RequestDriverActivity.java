@@ -3,6 +3,7 @@ package com.example.motoserv.client;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,6 +72,8 @@ public class RequestDriverActivity extends AppCompatActivity {
     private boolean mDriverFound = false;
     private String mIdDriverFound = "";
     private LatLng mDriverFoundLatLng;
+
+    private ValueEventListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,8 +193,13 @@ public class RequestDriverActivity extends AppCompatActivity {
                 if (snapshot.exists()){
                     String token = Objects.requireNonNull(snapshot.child("token").getValue()).toString();
                     Map<String, String> data = new HashMap<>();
-                    data.put("title","Nuevo viaje a " + time + "de tu posicion");
-                    data.put("body","Tienes una nueva solicitud de viaje en " + distance);
+                    data.put("title","Nuevo viaje a " + time + " de tu posicion");
+                    data.put("body",
+                            "Tienes una nueva solicitud de viaje en " + distance + "\n" +
+                                    "Ubicacion: " + mExtraOrigin + "\n" +
+                                    "Destino: " + mExtraDestination
+                    );
+                    data.put("idClient", mAuthProvider.getId());
                     FCMBody fcmBody = new FCMBody(token, "high", data);
 
                     mNotificationProvider.sendNotification(fcmBody).enqueue(new Callback<FCMResponse>() {
@@ -216,7 +224,8 @@ public class RequestDriverActivity extends AppCompatActivity {
                                     mClientBookingProvider.create(clientBooking).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
-                                            Toast.makeText(RequestDriverActivity.this, "Client booking successful", Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(RequestDriverActivity.this, "Client booking successful", Toast.LENGTH_SHORT).show();
+                                            checkStatusClientBooking();
                                         }
                                     });
                                     //Toast.makeText(RequestDriverActivity.this, "Notificacion enviada", Toast.LENGTH_SHORT).show();
@@ -243,5 +252,40 @@ public class RequestDriverActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void checkStatusClientBooking(){
+
+       mListener = mClientBookingProvider.getStatus(mAuthProvider.getId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String status = Objects.requireNonNull(snapshot.getValue()).toString();
+                    if (status.equals("accepted")){
+                        Intent intent = new Intent(RequestDriverActivity.this, MapClientBookingActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else if (status.equals("cancelled")){
+                        Toast.makeText(RequestDriverActivity.this, "El conductor rechazo el viaje", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RequestDriverActivity.this, MapClientActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //para que el listener no se quede escuchando cuando finlice la activity
+        if (mListener != null)
+            mClientBookingProvider.getStatus(mAuthProvider.getId()).removeEventListener(mListener);
     }
 }

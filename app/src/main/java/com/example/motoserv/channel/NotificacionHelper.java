@@ -61,4 +61,20 @@ public class NotificacionHelper extends ContextWrapper {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setStyle(new Notification.BigTextStyle().bigText(body).setBigContentTitle(title));
     }
+
+    public Notification.Builder getNotificationActions(String title, String body, Notification.Action acceptAction, Notification.Action cancelAction){
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .build();
+        return new Notification.Builder(getApplicationContext(), CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setAutoCancel(true)
+                //.setSound(soundUri, audioAttributes)
+                .setSmallIcon(R.drawable.ic_notification)
+                .addAction(acceptAction)
+                .addAction(cancelAction)
+                .setStyle(new Notification.BigTextStyle().bigText(body).setBigContentTitle(title));
+    }
 }

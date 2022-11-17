@@ -126,6 +126,12 @@ public class DetailRequestActivity extends AppCompatActivity implements OnMapRea
                     JSONObject route = jsonArray.getJSONObject(0);
                     JSONObject polylines = route.getJSONObject("overview_polyline");
                     String points = polylines.getString("points");
+
+                    /*JSONObject jsonObject = new JSONObject(response.body());
+                    JSONObject job = jsonObject.getJSONObject("rates");
+                    JSONObject jsonObject1 = job.getJSONObject("USD");
+                    String amount = jsonObject1.getString("rate_for_amount");*/
+
                     //mPolylineList = PolyUtil.decode(points);
                     mPolylineList = DecodePoints.decodePoly(points);
                     mPolylineOptions = new PolylineOptions();
