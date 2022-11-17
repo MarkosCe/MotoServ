@@ -7,6 +7,7 @@ import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.motoserv.driver.MapDriverBookingActivity;
 import com.example.motoserv.providers.ClientBookingProvider;
 
 public class AcceptReceiver extends BroadcastReceiver {
@@ -23,5 +24,10 @@ public class AcceptReceiver extends BroadcastReceiver {
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancel(2);
+
+        Intent intent1 = new Intent(context, MapDriverBookingActivity.class);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent1.setAction(Intent.ACTION_RUN);
+        context.startActivity(intent1);
     }
 }
