@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.motoserv.R;
 import com.example.motoserv.providers.AuthProvider;
+import com.example.motoserv.providers.ClientProvider;
 import com.example.motoserv.providers.GeofireProvider;
 import com.example.motoserv.providers.TokenProvider;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -44,6 +45,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 public class MapDriverBookingActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -58,8 +62,11 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     private LatLng mCurrentLocation;
     private GeofireProvider mGeofireProvider;
     private AuthProvider mAuthProvider;
+    private ClientProvider mClientProvider;
 
     private TextView mTextViewClientBooking;
+
+    private String mExtraClientId;
 
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
@@ -71,8 +78,12 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
         mGeofireProvider = new GeofireProvider("drivers_working");
         mAuthProvider = new AuthProvider();
+        mClientProvider = new ClientProvider();
 
         mTextViewClientBooking = findViewById(R.id.text_view_name_client_booking);
+        mExtraClientId = getIntent().getStringExtra("idClient");
+
+        getClientBooking();
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -107,11 +118,34 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                                         .zoom(16f)
                                         .build()
                         ));
-                        //updateLocation();
+                        updateLocation();
                     }
                 }
             }
         };
+    }
+
+    private void getClientBooking(){
+        mClientProvider.getClient(mExtraClientId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String userName = String.valueOf(snapshot.child("name"));
+                    mTextViewClientBooking.setText(userName);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void updateLocation(){
+        if (mAuthProvider.existSession() && mCurrentLocation != null) {
+            mGeofireProvider.saveLocation(mAuthProvider.getId(), mCurrentLocation);
+        }
     }
 
     @Override

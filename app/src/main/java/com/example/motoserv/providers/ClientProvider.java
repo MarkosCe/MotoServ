@@ -16,4 +16,8 @@ public class ClientProvider {
     public Task<Void> create(Client user){
         return db.child(user.getId()).setValue(user);
     }
+
+    public DatabaseReference getClient(String idClient){
+        return db.child(idClient);
+    }
 }

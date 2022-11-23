@@ -21,6 +21,7 @@ public class AcceptReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         //Se ejecuta cuando se presiona la accion de aceptar en la notificacion
+        authProvider = new AuthProvider();
         geofireProvider = new GeofireProvider("active_drivers");
         geofireProvider.removeLocation(authProvider.getId());
 
@@ -34,6 +35,7 @@ public class AcceptReceiver extends BroadcastReceiver {
         Intent intent1 = new Intent(context, MapDriverBookingActivity.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent1.setAction(Intent.ACTION_RUN);
+        intent1.putExtra("idClient", idClient);
         context.startActivity(intent1);
     }
 }

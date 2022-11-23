@@ -43,6 +43,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
 
     private Marker mMarker;
 
+    private PlacesClient mPlaces;
     private FusedLocationProviderClient mFusedLocation;
 
     private GeofireProvider mGeofireProvider;
@@ -66,7 +67,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
 
         mAuth = new AuthProvider();
 
-        mGeofireProvider = new GeofireProvider("working_drivers");
+        mGeofireProvider = new GeofireProvider("drivers_working");
 
         mTokenProvider = new TokenProvider();
 
@@ -79,6 +80,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
         if (!Places.isInitialized()){
             Places.initialize(getApplicationContext(), MAPS_API_KEY);
         }
+        mPlaces = Places.createClient(this);
     }
 
     @Override
