@@ -12,8 +12,8 @@ public class GeofireProvider {
     private DatabaseReference db;
     private GeoFire geoFire;
 
-    public GeofireProvider(){
-        db = FirebaseDatabase.getInstance().getReference().child("active_drivers");
+    public GeofireProvider(String reference){
+        db = FirebaseDatabase.getInstance().getReference().child(reference);
         geoFire = new GeoFire(db);
     }
 
@@ -29,5 +29,9 @@ public class GeofireProvider {
         GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(latLng.latitude, latLng.longitude), radius);
         geoQuery.removeAllListeners();
         return geoQuery;
+    }
+
+    public DatabaseReference isDriverWorking(String idDriver){
+        return FirebaseDatabase.getInstance().getReference().child("drivers_working").child(idDriver);
     }
 }

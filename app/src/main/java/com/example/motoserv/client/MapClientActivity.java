@@ -119,7 +119,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
 
         mAuth = new AuthProvider();
 
-        mGeofireProvider = new GeofireProvider();
+        mGeofireProvider = new GeofireProvider("active_drivers");
 
         mTokenProvider = new TokenProvider();
 

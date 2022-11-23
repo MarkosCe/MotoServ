@@ -50,6 +50,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -70,6 +73,8 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     private AuthProvider mAuthProvider;
     private TokenProvider mTokenProvider;
 
+    private ValueEventListener mEventListener;
+
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
 
@@ -80,7 +85,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
 
         MyToolbar.show(this, "Mapa", false);
 
-        mGeofireProvider = new GeofireProvider();
+        mGeofireProvider = new GeofireProvider("active_drivers");
         mAuthProvider = new AuthProvider();
         mTokenProvider = new TokenProvider();
 
@@ -137,9 +142,36 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         //generate token
         generateToken();
 
+        //verificar si el conductor esta trabajando
+        isDriverWorking();
+
         // Get the Intent that started this activity and extract the string
         mPreferences = getApplicationContext().getSharedPreferences("typeProvider", MODE_PRIVATE);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mEventListener != null){
+            mGeofireProvider.isDriverWorking(mAuthProvider.getId()).removeEventListener(mEventListener);
+        }
+    }
+
+    private void isDriverWorking(){
+        mEventListener = mGeofireProvider.isDriverWorking(mAuthProvider.getId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    disconnect();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void updateLocation(){
