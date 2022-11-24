@@ -199,6 +199,11 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         mClientBookingProvider.updateStatus(mExtraClientId, "started");
         mButtonStart.setVisibility(View.GONE);
         mButtonFinish.setVisibility(View.VISIBLE);
+
+        //limpiar ruta para trazar ahora si la ruta al destino
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(mDestinationLatlng).title("DESTINO").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_blue)));
+        drawRoute(mDestinationLatlng);
     }
 
     private void finishBooking(){
@@ -243,7 +248,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                     mMap.addMarker(new MarkerOptions().position(mOriginlatlng).title("AQUI").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_red)));
 
                     //ruta del conductor hacia el usuario(cliente)
-                    drawRoute();
+                    drawRoute(mOriginlatlng);
                 }
             }
 
@@ -271,8 +276,8 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         });
     }
 
-    private void drawRoute(){
-        mGoogleApiProvider.getDirections(mCurrentLocation, mOriginlatlng).enqueue(new Callback<String>() {
+    private void drawRoute(LatLng latLng){
+        mGoogleApiProvider.getDirections(mCurrentLocation, latLng).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 try {
