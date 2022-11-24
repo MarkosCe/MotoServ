@@ -208,6 +208,9 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
     private void finishBooking(){
         mClientBookingProvider.updateStatus(mExtraClientId, "finished");
+        Intent intent = new Intent(MapDriverBookingActivity.this, RateClientActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private double getDistanceBetween(LatLng clientLatLng, LatLng driverLatLng){
