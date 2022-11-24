@@ -7,6 +7,25 @@
     android:fitsSystemWindows="true"
     tools:context=".driver.MapDriverBookingActivity">
 
+    <Button
+        android:id="@+id/btn_start_drive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Iniciar viaje"
+        android:textColor="@color/white_color"
+        android:backgroundTint="@color/primary_color"
+        android:layout_margin="30dp"/>
+
+    <Button
+        android:id="@+id/btn_finish_drive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Terminar viaje"
+        android:visibility="gone"
+        android:textColor="@color/white_color"
+        android:backgroundTint="@color/primary_color"
+        android:layout_margin="30dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

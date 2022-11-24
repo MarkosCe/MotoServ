@@ -97,6 +97,9 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
     private String mExtraClientId;
 
+    private Button mButtonStart;
+    private Button mButtonFinish;
+
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
 
@@ -113,8 +116,12 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         mTextViewClientBooking = findViewById(R.id.text_view_name_client_booking);
         mTextViewOriginBooking = findViewById(R.id.text_view_origin_client_booking);
         mTextViewDestinationBooking = findViewById(R.id.text_view_destination_client_booking);
+        mButtonStart = findViewById(R.id.btn_start_drive);
+        mButtonFinish = findViewById(R.id.btn_finish_drive);
+
         mExtraClientId = getIntent().getStringExtra("idClient");
 
+        initButtons();
         getClient();
 
         mGoogleApiProvider = new GoogleApiProvider();
@@ -163,6 +170,32 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                 }
             }
         };
+    }
+
+    private void initButtons(){
+        mButtonStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startBooking();
+            }
+        });
+
+        mButtonFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishBooking();
+            }
+        });
+    }
+
+    private void startBooking(){
+        mClientBookingProvider.updateStatus(mExtraClientId, "started");
+        mButtonStart.setVisibility(View.GONE);
+        mButtonFinish.setVisibility(View.VISIBLE);
+    }
+
+    private void finishBooking(){
+        mClientBookingProvider.updateStatus(mExtraClientId, "finished");
     }
 
     private void getClientBooking(){
