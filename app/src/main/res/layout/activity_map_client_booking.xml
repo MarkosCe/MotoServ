@@ -7,10 +7,73 @@
     android:fitsSystemWindows="true"
     tools:context=".client.MapClientBookingActivity">
 
-    <fragment
-        android:id="@+id/map_client_booking"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:orientation="vertical" >
+
+        <fragment
+            android:id="@+id/map_client_booking"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_view_client_booking"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_user"
+                    android:contentDescription="IMAGEN DEL CLIENTE" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/text_view_origin_driver_booking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Origen:"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/text_view_destination_driver_booking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Destino:"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/text_view_name_driver_booking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre del conductor:"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -34,4 +34,8 @@ public class GeofireProvider {
     public DatabaseReference isDriverWorking(String idDriver){
         return FirebaseDatabase.getInstance().getReference().child("drivers_working").child(idDriver);
     }
+
+    public DatabaseReference getDriverLocation(String idDriver){
+        return db.child(idDriver).child("l");
+    }
 }

@@ -170,13 +170,13 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    String destination = String.valueOf(snapshot.child("destination"));
-                    String origin = String.valueOf(snapshot.child("origin"));
-                    double destinationLat = Double.parseDouble(snapshot.child("destinationLat").toString());
-                    double destinationLng = Double.parseDouble(snapshot.child("destinationLng").toString());
+                    String destination = String.valueOf(snapshot.child("destination").getValue());
+                    String origin = String.valueOf(snapshot.child("origin").getValue());
+                    double destinationLat = Double.parseDouble(snapshot.child("destinationLat").getValue().toString());
+                    double destinationLng = Double.parseDouble(snapshot.child("destinationLng").getValue().toString());
 
-                    double originLat = Double.parseDouble(snapshot.child("originLat").toString());
-                    double originLng = Double.parseDouble(snapshot.child("originLng").toString());
+                    double originLat = Double.parseDouble(snapshot.child("originLat").getValue().toString());
+                    double originLng = Double.parseDouble(snapshot.child("originLng").getValue().toString());
 
                     mOriginlatlng = new LatLng(originLat, originLng);
                     mDestinationLatlng = new LatLng(destinationLat, destinationLng);

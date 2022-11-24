@@ -16,4 +16,9 @@ public class DriverProvider {
     public Task<Void> create(Driver user){
         return db.child(user.getId()).setValue(user);
     }
+
+    public DatabaseReference getDriver(String idDriver){
+        return db.child(idDriver);
+    }
+
 }
