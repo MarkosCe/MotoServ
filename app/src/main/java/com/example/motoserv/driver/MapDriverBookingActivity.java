@@ -94,6 +94,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     private TextView mTextViewDestinationBooking;
 
     private boolean mIsFirstTime = true;
+    private boolean mIsDistanceClose = false;
 
     private String mExtraClientId;
 
@@ -118,6 +119,8 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         mTextViewDestinationBooking = findViewById(R.id.text_view_destination_client_booking);
         mButtonStart = findViewById(R.id.btn_start_drive);
         mButtonFinish = findViewById(R.id.btn_finish_drive);
+
+        //mButtonStart.setEnabled(false);
 
         mExtraClientId = getIntent().getStringExtra("idClient");
 
@@ -176,7 +179,11 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         mButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startBooking();
+                if (mIsDistanceClose){
+                    startBooking();
+                }else {
+                    Toast.makeText(MapDriverBookingActivity.this, "Aun no estas cerca del lugar", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -196,6 +203,22 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
     private void finishBooking(){
         mClientBookingProvider.updateStatus(mExtraClientId, "finished");
+    }
+
+    private double getDistanceBetween(LatLng clientLatLng, LatLng driverLatLng){
+        double distance = 0;
+        Location clientLocation = new Location("");
+        Location driverLocation = new Location("");
+
+        clientLocation.setLatitude(clientLatLng.latitude);
+        clientLocation.setLongitude(clientLatLng.longitude);
+
+        driverLocation.setLatitude(driverLatLng.latitude);
+        driverLocation.setLongitude(driverLatLng.longitude);
+        //obtner distancia entre pasajero y conductor
+        distance = clientLocation.distanceTo(driverLocation);
+
+        return distance;
     }
 
     private void getClientBooking(){
@@ -291,6 +314,16 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     private void updateLocation(){
         if (mAuthProvider.existSession() && mCurrentLocation != null) {
             mGeofireProvider.saveLocation(mAuthProvider.getId(), mCurrentLocation);
+            if (!mIsDistanceClose){
+                if (mOriginlatlng != null && mCurrentLocation != null){
+                    double distance = getDistanceBetween(mOriginlatlng, mCurrentLocation); //retorna en metros
+                    if (distance <= 10){
+                        //mButtonStart.setEnabled(true);
+                        mIsDistanceClose = true;
+                        Toast.makeText(this, "Estas cerca del lugar", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
         }
     }
 
