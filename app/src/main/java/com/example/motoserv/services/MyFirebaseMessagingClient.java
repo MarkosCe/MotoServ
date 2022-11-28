@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -60,7 +61,7 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         //Notification action: aceptar
         Intent acceptIntent = new Intent(this, AcceptReceiver.class);
         acceptIntent.putExtra("idClient", idClient);
-        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent acceptPendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_CODE, acceptIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent acceptPendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_CODE, acceptIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Notification.Action acceptAction = new Notification.Action.Builder(
                 R.mipmap.ic_launcher,
