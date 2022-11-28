@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".driver.RateClientActivity">
+    tools:context=".client.RateDriverActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CALIFICAR"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        android:text="CALIFICAR CONDUCTOR"
+        android:gravity="center"
+        android:layout_gravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

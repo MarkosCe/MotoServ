@@ -22,6 +22,13 @@
         android:theme="@style/Theme.MotoServ"
         tools:targetApi="31">
         <activity
+            android:name=".client.RateDriverActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".driver.RateClientActivity"
             android:exported="false">
             <meta-data
