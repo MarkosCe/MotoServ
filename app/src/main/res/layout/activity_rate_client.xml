@@ -42,7 +42,7 @@
             android:layout_marginTop="20dp"/>
 
         <TextView
-            android:id="@+id/text_view_rate_origen"
+            android:id="@+id/text_view_rate_origen_driver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -59,7 +59,7 @@
             android:layout_marginTop="20dp"/>
 
         <TextView
-            android:id="@+id/text_view_rate_destination"
+            android:id="@+id/text_view_rate_destination_driver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -67,7 +67,7 @@
             android:layout_marginTop="5dp"/>
 
         <RatingBar
-            android:id="@+id/rating_bar_driver"
+            android:id="@+id/rating_bar_client"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -81,10 +81,10 @@
             android:gravity="bottom|center">
 
             <Button
-                android:id="@+id/btn_rate_driver"
+                android:id="@+id/btn_rate_client"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
-                android:text="Calificar conductor"
+                android:text="Calificar pasajero"
                 android:backgroundTint="@color/primary_color"
                 android:textColor="@color/white_color"
                 android:layout_marginBottom="20dp"/>

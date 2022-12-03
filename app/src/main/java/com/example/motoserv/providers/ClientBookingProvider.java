@@ -26,6 +26,13 @@ public class ClientBookingProvider {
         return mDatabase.child(idClientBooking).updateChildren(map);
     }
 
+    public Task<Void> updateIdRideHistory(String idClientBooking){
+        String id = mDatabase.push().getKey();  //genera un id unico en la base de datos
+        Map<String, Object> map = new HashMap<>();
+        map.put("idRideHistory", id);
+        return mDatabase.child(idClientBooking).updateChildren(map);
+    }
+
     public DatabaseReference getStatus(String idClientBooking) {
         return mDatabase.child(idClientBooking).child("status");
     }

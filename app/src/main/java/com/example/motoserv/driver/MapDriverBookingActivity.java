@@ -222,14 +222,17 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
     private void finishBooking(){
         mClientBookingProvider.updateStatus(mExtraClientId, "finished");
+        mClientBookingProvider.updateIdRideHistory(mExtraClientId);
         sendNotification("FINALIZADO");
-        mGeofireProvider.removeLocation(mAuthProvider.getId());
         //Terminar la actualizacion de ubicacion
         if (mFusedLocation != null){
             mFusedLocation.removeLocationUpdates(mLocationCallback);
         }
         //
+        mGeofireProvider.removeLocation(mAuthProvider.getId());
+
         Intent intent = new Intent(MapDriverBookingActivity.this, RateClientActivity.class);
+        intent.putExtra("idClient", mExtraClientId);
         startActivity(intent);
         finish();
     }

@@ -67,7 +67,7 @@
             android:layout_marginTop="5dp"/>
 
         <RatingBar
-            android:id="@+id/rating_bar_client"
+            android:id="@+id/rating_bar_driver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -83,7 +83,7 @@
                 android:id="@+id/btn_rate_driver"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
-                android:text="Calificar pasajero"
+                android:text="Calificar conductor"
                 android:backgroundTint="@color/primary_color"
                 android:textColor="@color/white_color"
                 android:layout_marginBottom="20dp"/>

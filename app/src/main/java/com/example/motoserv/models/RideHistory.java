@@ -1,6 +1,6 @@
 package com.example.motoserv.models;
 
-public class ClientBooking {
+public class RideHistory {
 
     private String idRideHistory;
     private String idClient;
@@ -14,27 +14,15 @@ public class ClientBooking {
     private double originLng;
     private double destinationLat;
     private double destinationLng;
+    private double rateClient;
+    private double rateDriver;
+    private long timestamp;
 
-    public ClientBooking(){
+    public RideHistory(){
 
     }
 
-    public ClientBooking(String idClient, String idDriver, String destination, String origin, String time, String km, String status, double originLat, double originLng, double destinationLat, double destinationLng) {
-        this.idRideHistory = idRideHistory;
-        this.idClient = idClient;
-        this.idDriver = idDriver;
-        this.destination = destination;
-        this.origin = origin;
-        this.time = time;
-        this.km = km;
-        this.status = status;
-        this.originLat = originLat;
-        this.originLng = originLng;
-        this.destinationLat = destinationLat;
-        this.destinationLng = destinationLng;
-    }
-
-    public ClientBooking(String idRideHistory, String idClient, String idDriver, String destination, String origin, String time, String km, String status, double originLat, double originLng, double destinationLat, double destinationLng) {
+    public RideHistory(String idRideHistory, String idClient, String idDriver, String destination, String origin, String time, String km, String status, double originLat, double originLng, double destinationLat, double destinationLng) {
         this.idRideHistory = idRideHistory;
         this.idClient = idClient;
         this.idDriver = idDriver;
@@ -143,5 +131,29 @@ public class ClientBooking {
 
     public void setDestinationLng(double destinationLng) {
         this.destinationLng = destinationLng;
+    }
+
+    public double getRateClient() {
+        return rateClient;
+    }
+
+    public void setRateClient(double rateClient) {
+        this.rateClient = rateClient;
+    }
+
+    public double getRateDriver() {
+        return rateDriver;
+    }
+
+    public void setRateDriver(double rateDriver) {
+        this.rateDriver = rateDriver;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }
