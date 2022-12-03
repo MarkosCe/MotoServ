@@ -77,7 +77,7 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         //Notification action: rechazar
         Intent cancelIntent = new Intent(this, CancelReceiver.class);
         cancelIntent.putExtra("idClient", idClient);
-        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_CODE, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_CODE, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Notification.Action cancelAction = new Notification.Action.Builder(
                 R.mipmap.ic_launcher,

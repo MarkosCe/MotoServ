@@ -28,11 +28,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.motoserv.R;
+import com.example.motoserv.client.RequestDriverActivity;
+import com.example.motoserv.models.ClientBooking;
+import com.example.motoserv.models.FCMBody;
+import com.example.motoserv.models.FCMResponse;
 import com.example.motoserv.providers.AuthProvider;
 import com.example.motoserv.providers.ClientBookingProvider;
 import com.example.motoserv.providers.ClientProvider;
 import com.example.motoserv.providers.GeofireProvider;
 import com.example.motoserv.providers.GoogleApiProvider;
+import com.example.motoserv.providers.NotificationProvider;
 import com.example.motoserv.providers.TokenProvider;
 import com.example.motoserv.utils.DecodePoints;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,6 +58,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.SquareCap;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -60,7 +66,10 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,6 +90,8 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     private AuthProvider mAuthProvider;
     private ClientProvider mClientProvider;
     private ClientBookingProvider mClientBookingProvider;
+    private TokenProvider mTokenProvider;
+    private NotificationProvider mNotificationProvider;
 
     private LatLng mOriginlatlng;
     private LatLng mDestinationLatlng;
@@ -113,6 +124,8 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         mAuthProvider = new AuthProvider();
         mClientProvider = new ClientProvider();
         mClientBookingProvider = new ClientBookingProvider();
+        mTokenProvider = new TokenProvider();
+        mNotificationProvider = new NotificationProvider();
 
         mTextViewClientBooking = findViewById(R.id.text_view_name_client_booking);
         mTextViewOriginBooking = findViewById(R.id.text_view_origin_client_booking);
@@ -204,10 +217,18 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(mDestinationLatlng).title("DESTINO").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_blue)));
         drawRoute(mDestinationLatlng);
+        sendNotification("INICIADO");
     }
 
     private void finishBooking(){
         mClientBookingProvider.updateStatus(mExtraClientId, "finished");
+        sendNotification("FINALIZADO");
+        mGeofireProvider.removeLocation(mAuthProvider.getId());
+        //Terminar la actualizacion de ubicacion
+        if (mFusedLocation != null){
+            mFusedLocation.removeLocationUpdates(mLocationCallback);
+        }
+        //
         Intent intent = new Intent(MapDriverBookingActivity.this, RateClientActivity.class);
         startActivity(intent);
         finish();
@@ -462,5 +483,45 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                 ActivityCompat.requestPermissions(MapDriverBookingActivity.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
             }
         }
+    }
+
+    private void sendNotification(String status){
+        mTokenProvider.getToken(mExtraClientId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String token = Objects.requireNonNull(snapshot.child("token").getValue()).toString();
+                    Map<String, String> data = new HashMap<>();
+                    data.put("title","ESTADO del viaje");
+                    data.put("body", "El estado del viaje es: " + status);
+                    FCMBody fcmBody = new FCMBody(token, "high", "4500s", data);
+
+                    mNotificationProvider.sendNotification(fcmBody).enqueue(new Callback<FCMResponse>() {
+                        @Override
+                        public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
+                            if (response.body() != null){
+                                if (response.body().getSuccess() != 1) {
+                                    Toast.makeText(MapDriverBookingActivity.this, "El envío de la notificacion falló", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(MapDriverBookingActivity.this, "No se pudo enviar la notificacion", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FCMResponse> call, Throwable t) {
+                            Log.d("Error", "Error " + t.getMessage());
+                        }
+                    });
+                }else {
+                    Toast.makeText(MapDriverBookingActivity.this, "No se pudo enviar la notificacion: Token de conductor no existe", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
