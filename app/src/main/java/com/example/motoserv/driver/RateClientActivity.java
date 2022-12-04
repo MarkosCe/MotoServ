@@ -113,12 +113,20 @@ public class RateClientActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()){
-                        mRideHistoryProvider.updateRateValueClient(mRideHsitory.getIdRideHistory(), mRateValue);
+                        mRideHistoryProvider.updateRateValueClient(mRideHsitory.getIdRideHistory(), mRateValue).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(RateClientActivity.this, "Historial actualizado", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RateClientActivity.this, MapDriverActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
                     }else {
                         mRideHistoryProvider.create(mRideHsitory).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(RateClientActivity.this, "Historial guardado", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RateClientActivity.this, "Historial creado", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(RateClientActivity.this, MapDriverActivity.class);
                                 startActivity(intent);
                                 finish();

@@ -22,7 +22,7 @@
             android:layout_marginTop="20dp"/>
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_view"
+            android:id="@+id/animation_view_client"
             android:layout_width="200dp"
             android:layout_height="200dp"
             app:lottie_rawRes="@raw/checked"
@@ -42,7 +42,7 @@
             android:layout_marginTop="20dp"/>
 
         <TextView
-            android:id="@+id/text_view_rate_origen"
+            android:id="@+id/text_view_rate_origin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
