@@ -18,9 +18,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 
 public class RegisterDriverTwoActivity extends AppCompatActivity {
 
-    private Button mButtonSelectIne;
     private ImageView mImageViewIne;
-    private Button mButtonSelectComp;
     private ImageView mImageViewComprob;
     Button mButtonReady;
 
@@ -37,20 +35,15 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
         mImageViewIne = findViewById(R.id.image_view_ine);
         mImageViewComprob = findViewById(R.id.image_view_cdomicilio);
 
-        mButtonSelectIne = findViewById(R.id.btn_foto_ine);
-        mButtonSelectComp = findViewById(R.id.btn_foto_comprob);
+        Button mButtonSelectIne = findViewById(R.id.btn_foto_ine);
+        Button mButtonSelectComp = findViewById(R.id.btn_foto_comprob);
         mButtonReady = findViewById(R.id.btn_listo_two);
 
-        mButtonSelectIne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImagePicker.with(RegisterDriverTwoActivity.this)
-                        .crop(16f,9f)	    			//Crop image(Optional), Check Customization for more option
-                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(620, 312)	//Final image resolution will be less than 1080 x 1080(Optional)
-                        .start(IMAGE_INE_CODE);
-            }
-        });
+        mButtonSelectIne.setOnClickListener(view -> ImagePicker.with(RegisterDriverTwoActivity.this)
+                .crop(16f,9f)	    			//Crop image(Optional), Check Customization for more option
+                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                .maxResultSize(620, 312)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start(IMAGE_INE_CODE));
 
         mButtonSelectComp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,18 +56,14 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
             }
         });
 
-        mButtonReady.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateUserInfo();
-            }
-        });
+        mButtonReady.setOnClickListener(view -> updateUserInfo());
 
     }
 
     void updateUserInfo(){
         Intent intent = new Intent(RegisterDriverTwoActivity.this, MapDriverActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -83,6 +72,7 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
 
         if (resultCode == Activity.RESULT_OK) {
             // Uri object will not be null for RESULT_OK
+            assert data != null;
             Uri uri = data.getData();
 
             switch (requestCode) {

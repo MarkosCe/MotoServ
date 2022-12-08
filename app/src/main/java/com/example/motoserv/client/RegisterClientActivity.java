@@ -74,6 +74,7 @@ public class RegisterClientActivity extends AppCompatActivity {
                     Toast.makeText(RegisterClientActivity.this, "Registradooo cliente", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterClientActivity.this, MapClientActivity.class);
                     startActivity(intent);
+                    finish();
                 }else {
                     Toast.makeText(RegisterClientActivity.this, "Algo salío mal cliente", Toast.LENGTH_SHORT).show();
                 }

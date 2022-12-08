@@ -21,7 +21,7 @@ public class SelectAccTypeActivity extends AppCompatActivity {
     private RadioButton mRbtnDriver;
 
     SharedPreferences mPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +49,15 @@ public class SelectAccTypeActivity extends AppCompatActivity {
         if (mRbtnPass.isChecked()){
             editor.putString("typeAcc", "Client");
             editor.apply();
-            /*Intent intent = new Intent(SelectAccTypeActivity.this, MapClientActivity.class);
-            startActivity(intent);*/
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterClientActivity.class);
             startActivity(intent);
+            finish();
         }else if (mRbtnDriver.isChecked()){
             editor.putString("typeAcc", "Driver");
             editor.apply();
-            /*Intent intent = new Intent(SelectAccTypeActivity.this, MapDriverActivity.class);
-            startActivity(intent);*/
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterDriverActivity.class);
             startActivity(intent);
+            finish();
         }else {
             Toast.makeText(this, "Elige una opcion", Toast.LENGTH_SHORT).show();
         }

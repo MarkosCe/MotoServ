@@ -35,18 +35,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    /*private static final String EMAIL = "email";
-    private static final String USER_POSTS = "user_posts";
-    private static final String AUTH_TYPE = "rerequest";
-
-    private static final String TAG = "FacebookLogin";
-
-    // [START declare_auth]
-    private FirebaseAuth mAuth;
-    // [END declare_auth]
-
-    private CallbackManager mCallbackManager;*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // instalamos el splash

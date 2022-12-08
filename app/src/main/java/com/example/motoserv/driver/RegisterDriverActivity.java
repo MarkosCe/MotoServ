@@ -57,7 +57,7 @@ public class RegisterDriverActivity extends AppCompatActivity {
     }
 
     void registerUserInfo(String id){
-        String userName = mTextInputUserName.getText().toString();
+        String userName = String.valueOf(mTextInputUserName.getText());
         if (!userName.equals("") && mGender.getCheckedRadioButtonId() != -1){
             Driver driver = new Driver();
             driver.setId(id);
@@ -78,6 +78,7 @@ public class RegisterDriverActivity extends AppCompatActivity {
                     Toast.makeText(RegisterDriverActivity.this, "Registradooo", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterDriverActivity.this, RegisterDriverTwoActivity.class);
                     startActivity(intent);
+                    finish();
                 }else {
                     Toast.makeText(RegisterDriverActivity.this, "Algo salío mal", Toast.LENGTH_SHORT).show();
                 }

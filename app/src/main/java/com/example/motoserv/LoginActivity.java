@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.motoserv.client.MapClientActivity;
 import com.example.motoserv.driver.MapDriverActivity;
+import com.example.motoserv.providers.ClientProvider;
+import com.example.motoserv.providers.DriverProvider;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -48,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager mCallbackManager;
 
+    private ClientProvider mClientProvider;
+    private DriverProvider mDriverProvider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +74,9 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END config_signin]
         mCallbackManager = CallbackManager.Factory.create();
+
+        mClientProvider = new ClientProvider();
+        mDriverProvider = new DriverProvider();
 
         final Button mButtonFacebook = findViewById(R.id.btn_facebook);
         mButtonFacebook.setOnClickListener(new View.OnClickListener() {
