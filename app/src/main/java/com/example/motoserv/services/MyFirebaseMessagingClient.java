@@ -2,7 +2,9 @@ package com.example.motoserv.services;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
@@ -37,9 +39,13 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         String body = data.get("body");
 
         if (title != null){
-            if (title.contains("Nuevo viaje")){
+            if (title.contains("NUEVO VIAJE")){
                 String idClient = data.get("idClient");
                 showNotificationActions(title, body, idClient);
+            }else if (title.contains("VIAJE CANCELADO")){
+                NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                manager.cancel(2);
+                showNotification(title, body);
             }else {
                 showNotification(title, body);
             }

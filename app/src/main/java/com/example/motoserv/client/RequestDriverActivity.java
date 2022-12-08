@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +71,7 @@ public class RequestDriverActivity extends AppCompatActivity {
 
     private double mRadius = 0.1;
     private boolean mDriverFound = false;
+    private boolean mIsCancelled = false;
     private String mIdDriverFound = "";
     private LatLng mDriverFoundLatLng;
 
@@ -100,16 +102,40 @@ public class RequestDriverActivity extends AppCompatActivity {
         mAuthProvider = new AuthProvider();
         mGoogleApiProvider = new GoogleApiProvider();
 
+        mButtonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelRequest();
+            }
+        });
+
         mAnimationView.playAnimation();
 
         getClosesDrivers();
+    }
+
+    private void cancelRequest(){
+        mClientBookingProvider.delete(mAuthProvider.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                mIsCancelled = true;
+                if (mDriverFound){
+                    sendNotificationCancelRequest();
+                }else {
+                    Toast.makeText(RequestDriverActivity.this, "Cancelacion completado", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RequestDriverActivity.this, MapClientActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 
     private void getClosesDrivers(){
         mGeofireProvider.getActiveDrivers(mOriginLatLng, mRadius).addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
-                if (!mDriverFound){
+                if (!mDriverFound && !mIsCancelled){
                     mDriverFound = true;
                     mIdDriverFound = key;
                     mDriverFoundLatLng = new LatLng(location.latitude, location.longitude);
@@ -132,7 +158,7 @@ public class RequestDriverActivity extends AppCompatActivity {
             @Override
             public void onGeoQueryReady() {
                 //ingresa cuando se termina de ejecutar el metodo getActiveDrivers
-                if (!mDriverFound){
+                if (!mDriverFound && !mIsCancelled){
                     mRadius = mRadius + 0.1f;
 
                     if (mRadius > 5){
@@ -155,7 +181,6 @@ public class RequestDriverActivity extends AppCompatActivity {
     }
 
     private void createClientBooking(){
-
         mGoogleApiProvider.getDirections(mOriginLatLng, mDriverFoundLatLng).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -186,6 +211,52 @@ public class RequestDriverActivity extends AppCompatActivity {
         });
     }
 
+    private void sendNotificationCancelRequest(){
+        mTokenProvider.getToken(mIdDriverFound).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String token = Objects.requireNonNull(snapshot.child("token").getValue()).toString();
+                    Map<String, String> data = new HashMap<>();
+                    data.put("title","VIAJE CANCELADO");
+                    data.put("body", "Se ha cancelado el viaje");
+
+                    FCMBody fcmBody = new FCMBody(token, "high", "4500s", data);
+
+                    mNotificationProvider.sendNotification(fcmBody).enqueue(new Callback<FCMResponse>() {
+                        @Override
+                        public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
+                            if (response.body() != null){
+                                if (response.body().getSuccess() == 1){
+                                    Toast.makeText(RequestDriverActivity.this, "Cancelacion completado", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(RequestDriverActivity.this, MapClientActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }else {
+                                    Toast.makeText(RequestDriverActivity.this, "El envío de la notificacion falló", Toast.LENGTH_SHORT).show();
+                                }
+                            }else {
+                                Toast.makeText(RequestDriverActivity.this, "No se pudo enviar la notificacion", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FCMResponse> call, Throwable t) {
+                            Log.d("Error", "Error " + t.getMessage());
+                        }
+                    });
+                }else {
+                    Toast.makeText(RequestDriverActivity.this, "No se pudo enviar la notificacion: Token de conductor no existe", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void sendNotification(String time, String distance){
         mTokenProvider.getToken(mIdDriverFound).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -193,7 +264,7 @@ public class RequestDriverActivity extends AppCompatActivity {
                 if (snapshot.exists()){
                     String token = Objects.requireNonNull(snapshot.child("token").getValue()).toString();
                     Map<String, String> data = new HashMap<>();
-                    data.put("title","Nuevo viaje a " + time + " de tu posicion");
+                    data.put("title","NUEVO VIAJE A " + time + " DE TU POSICION");
                     data.put("body",
                             "Tienes una nueva solicitud de viaje en " + distance + "\n" +
                                     "Ubicacion: " + mExtraOrigin + "\n" +
