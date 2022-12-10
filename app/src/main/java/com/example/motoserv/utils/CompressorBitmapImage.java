@@ -30,8 +30,7 @@ public class CompressorBitmapImage {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         thumb_bitmap.compress(Bitmap.CompressFormat.JPEG,80,baos);
-        byte[] thumb_byte = baos.toByteArray();
-        return  thumb_byte;
+        return baos.toByteArray();
     }
 
 }

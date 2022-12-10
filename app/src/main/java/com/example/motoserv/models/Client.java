@@ -6,16 +6,18 @@ public class Client {
     String provider;
     String name;
     String gender;
+    String image;
 
     public Client(){
 
     }
 
-    public Client(String id, String provider, String name, String gender) {
+    public Client(String id, String provider, String name, String gender, String image) {
         this.id = id;
         this.provider = provider;
         this.name = name;
         this.gender = gender;
+        this.image = image;
     }
 
     public String getId() {
@@ -48,5 +50,13 @@ public class Client {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
