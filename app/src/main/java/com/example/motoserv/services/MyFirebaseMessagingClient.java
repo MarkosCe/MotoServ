@@ -54,7 +54,7 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
 
     private void showNotification(String title, String body){
 
-        PendingIntent intent = PendingIntent.getActivity(getBaseContext(), 0, new Intent(), PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent intent = PendingIntent.getActivity(getBaseContext(), 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificacionHelper notificacionHelper = new NotificacionHelper(getBaseContext());
 
