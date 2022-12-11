@@ -6,15 +6,18 @@ public class Driver {
     String provider;
     String name;
     String gender;
+    String image;
 
     public Driver(){
 
     }
-    public Driver(String id, String provider, String name, String gender) {
+
+    public Driver(String id, String provider, String name, String gender, String image) {
         this.id = id;
         this.provider = provider;
         this.name = name;
         this.gender = gender;
+        this.image = image;
     }
 
     public String getId() {
@@ -47,5 +50,13 @@ public class Driver {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

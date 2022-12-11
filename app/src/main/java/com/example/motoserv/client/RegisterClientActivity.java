@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ActivityChooserView;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,11 +24,13 @@ import android.widget.Toast;
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
 import com.example.motoserv.driver.RegisterDriverActivity;
+import com.example.motoserv.driver.RegisterDriverTwoActivity;
 import com.example.motoserv.models.Client;
 import com.example.motoserv.providers.AuthProvider;
 import com.example.motoserv.providers.ClientProvider;
 import com.example.motoserv.utils.CompressorBitmapImage;
 import com.example.motoserv.utils.FileUtil;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -50,13 +53,12 @@ public class RegisterClientActivity extends AppCompatActivity {
     private AuthProvider mAuthProvider;
     ClientProvider mClientProvider;
 
-    //private FirebaseAuth mAuth;
-
     private ProgressBar mProgressBar;
 
     private File mImageFile;
     private String mImage;
     private final int GALLERY_REQUEST_CODE = 1;
+    private static final int IMAGE_PROFILE_CODE = 103;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,21 +96,40 @@ public class RegisterClientActivity extends AppCompatActivity {
     }
 
     private void imageChooser(){
-        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        /*Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
-        startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
+        startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);*/
+        ImagePicker.with(RegisterClientActivity.this)
+                .crop(12f,12f)	    			//Crop image(Optional), Check Customization for more option
+                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                .maxResultSize(500, 500)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start(IMAGE_PROFILE_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK){
+        /*if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK){
             try {
                 mImageFile = FileUtil.from(this, data.getData());
                 mImageViewProfile.setImageBitmap(BitmapFactory.decodeFile(mImageFile.getAbsolutePath()));
             }catch (Exception e){
                 Log.d("ERROR", e.getMessage());
             }
+        }*/
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PROFILE_CODE) {
+            assert data != null;
+            try {
+                Uri uri = data.getData();
+                mImageFile = FileUtil.from(this, uri);
+                mImageViewProfile.setImageBitmap(BitmapFactory.decodeFile(mImageFile.getAbsolutePath()));
+            }catch (Exception e){
+                Log.d("ERROR", e.getMessage());
+            }
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -145,6 +166,7 @@ public class RegisterClientActivity extends AppCompatActivity {
                         }
                     });
                 }else {
+                    mProgressBar.setVisibility(View.GONE);
                     Toast.makeText(RegisterClientActivity.this, "Error: al subir la foto de perfil", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -162,6 +184,7 @@ public class RegisterClientActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }else {
+                    mProgressBar.setVisibility(View.GONE);
                     Toast.makeText(RegisterClientActivity.this, "Error: Algo salío mal", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -478,6 +478,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(MapClientActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void generateToken(){

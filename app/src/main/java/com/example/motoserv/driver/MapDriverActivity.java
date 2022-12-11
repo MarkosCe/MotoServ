@@ -337,6 +337,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(MapDriverActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void generateToken(){
