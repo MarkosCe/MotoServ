@@ -2,6 +2,7 @@ package com.example.motoserv.driver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -231,7 +232,9 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         //
         mGeofireProvider.removeLocation(mAuthProvider.getId());
 
-        Intent intent = new Intent(MapDriverBookingActivity.this, RateClientActivity.class);
+        // podria moverse: si la notificacion fue exitosa  sendNotification("FINALIZADO");
+        //Intent intent = new Intent(MapDriverBookingActivity.this, RateClientActivity.class);
+        Intent intent = new Intent(MapDriverBookingActivity.this, PaymentDriverActivity.class);
         intent.putExtra("idClient", mExtraClientId);
         startActivity(intent);
         finish();
@@ -384,7 +387,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         startLocation();
     }
 
-    @SuppressLint("MissingPermission")
+    @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION","android.permission.ACCESS_FINE_LOCATION"})
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

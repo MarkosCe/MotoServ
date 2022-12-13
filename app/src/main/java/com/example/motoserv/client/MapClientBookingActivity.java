@@ -171,7 +171,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
     }
 
     public void finishBooking(){
-        Intent intent = new Intent(MapClientBookingActivity.this, RateDriverActivity.class);
+        Intent intent = new Intent(MapClientBookingActivity.this, PaymentClientActivity.class);
         startActivity(intent);
         finish();
     }
