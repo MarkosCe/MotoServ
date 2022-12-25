@@ -23,6 +23,6 @@
         android:backgroundTint="@color/primary_color"
         android:text="Conectar"
         android:layout_gravity="bottom|center"
-        android:layout_margin="30dp"/>
+        android:layout_margin="30dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

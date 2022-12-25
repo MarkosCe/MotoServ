@@ -314,6 +314,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.driver_menu, menu);
+        //menu.getItem(R.id.action_home).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -321,8 +322,15 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_logout){
             logOut();
+        } else if (item.getItemId() == R.id.action_home){
+            goHome();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goHome(){
+        Intent intent = new Intent(MapDriverActivity.this, HomeDriverActivity.class);
+        startActivity(intent);
     }
 
     void logOut(){

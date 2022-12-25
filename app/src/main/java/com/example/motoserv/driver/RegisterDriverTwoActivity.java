@@ -61,7 +61,7 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
     }
 
     void updateUserInfo(){
-        Intent intent = new Intent(RegisterDriverTwoActivity.this, MapDriverActivity.class);
+        Intent intent = new Intent(RegisterDriverTwoActivity.this, HomeDriverActivity.class);
         startActivity(intent);
         finish();
     }
