@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/noti_menu"
+        android:title=""
+        android:icon="@drawable/ic_baseline_notifications_32"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/options"
+        android:title=""
+        android:icon="@drawable/ic_menu"
+        app:showAsAction="always" >
+
+        <menu>
+            <item android:id="@+id/action_profile"
+                android:icon="@drawable/ic_user_single"
+                android:title="Perfil"/>
+            <item android:id="@+id/action_credits"
+                android:icon="@drawable/ic_coin"
+                android:title="Creditos"/>
+            <item android:id="@+id/action_history"
+                android:icon="@drawable/ic_historial"
+                android:title="Historial"/>
+            <item android:id="@+id/action_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="Salir"/>
+        </menu>
+
+    </item>
+
+</menu>

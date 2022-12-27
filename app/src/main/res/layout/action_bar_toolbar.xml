@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/primary_color"
         app:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:titleTextColor="@color/white_color"/>
+        app:titleTextColor="@color/white_color"
+        app:title="Home"/>
 
 </com.google.android.material.appbar.AppBarLayout>

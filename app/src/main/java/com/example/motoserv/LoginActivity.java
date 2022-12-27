@@ -151,6 +151,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
             String type = mPreferences.getString("typeAcc", "");
+            String finish = mPreferences.getString("finish","");
+            if (finish == null)
+                return;
             if (type == null)
                 return;
             if (type.equals("Client")){

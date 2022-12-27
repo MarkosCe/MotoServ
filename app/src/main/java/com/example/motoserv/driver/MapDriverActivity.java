@@ -2,6 +2,7 @@ package com.example.motoserv.driver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -75,6 +76,8 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
 
     private ValueEventListener mEventListener;
 
+    private boolean isCameraMove = false;
+
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
 
@@ -92,6 +95,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_driver);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
         mButtonConnect = findViewById(R.id.btn_connect_driver);
@@ -127,12 +131,15 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                                 ).title("Tu estás aquí")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_driver)));
                         //localizacion en tiempo real
-                        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(
-                                new CameraPosition.Builder()
-                                        .target(new LatLng(location.getLatitude(), location.getLongitude()))
-                                        .zoom(16f)
-                                        .build()
-                        ));
+                        if (isCameraMove){
+                            isCameraMove = false;
+                            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(
+                                    new CameraPosition.Builder()
+                                            .target(new LatLng(location.getLatitude(), location.getLongitude()))
+                                            .zoom(16f)
+                                            .build()
+                            ));
+                        }
                         updateLocation();
                     }
                 }
@@ -313,7 +320,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.driver_menu, menu);
+        getMenuInflater().inflate(R.menu.driver_map_menu, menu);
         //menu.getItem(R.id.action_home).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
@@ -322,18 +329,30 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_logout){
             logOut();
-        } else if (item.getItemId() == R.id.action_home){
-            goHome();
+        }else if (item.getItemId() == R.id.action_profile){
+            goToUpdateProfile();
+        }else if (item.getItemId() == R.id.action_credits){
+            goToCredits();
+        }else if (item.getItemId() == R.id.action_history){
+            goToRideHistory();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void goHome(){
+    private void goToUpdateProfile(){
         Intent intent = new Intent(MapDriverActivity.this, HomeDriverActivity.class);
         startActivity(intent);
     }
 
-    void logOut(){
+    private void goToCredits(){
+
+    }
+
+    private void goToRideHistory(){
+
+    }
+
+    private void logOut(){
         disconnect();
         String provider= mPreferences.getString("provider", "notype");
         if (provider != null) {

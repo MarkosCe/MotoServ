@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,9 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
     private ImageView mImageViewComprob;
     Button mButtonReady;
 
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor editor;
+
     private static final int IMAGE_INE_CODE = 101;
     private static final int IMAGE_COMPROB_CODE = 102;
 
@@ -31,6 +35,8 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register_driver_two);
 
         MyToolbar.show(this, "Completar registro", false);
+        mPreferences = getApplication().getSharedPreferences("preferences", MODE_PRIVATE);
+        editor = mPreferences.edit();
 
         mImageViewIne = findViewById(R.id.image_view_ine);
         mImageViewComprob = findViewById(R.id.image_view_cdomicilio);
@@ -61,6 +67,8 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
     }
 
     void updateUserInfo(){
+        editor.putString("finish", "true");
+        editor.apply();
         Intent intent = new Intent(RegisterDriverTwoActivity.this, HomeDriverActivity.class);
         startActivity(intent);
         finish();

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeDriverActivity extends AppCompatActivity {
 
-    private FusedLocationProviderClient mFusedLocation;
+    private SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +27,14 @@ public class HomeDriverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_driver);
 
         MyToolbar.show(this, "Home", false);
+
+        // Get the Intent that started this activity and extract the string
+        mPreferences = getApplicationContext().getSharedPreferences("typeProvider", MODE_PRIVATE);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.driver_menu, menu);
-        menu.getItem(R.id.action_home).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -39,14 +42,14 @@ public class HomeDriverActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_logout){
             Toast.makeText(this, "Salir", Toast.LENGTH_SHORT).show();
-            //logOut();
+            logOut();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /*void logOut(){
+    private void logOut(){
         //disconnect();
-        //String provider= mPreferences.getString("provider", "notype");
+        String provider= mPreferences.getString("provider", "notype");
         if (provider != null) {
             Toast.makeText(HomeDriverActivity.this, "No es nulo", Toast.LENGTH_SHORT).show();
             if (provider.equals("FACEBOOK")) {
@@ -58,15 +61,4 @@ public class HomeDriverActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-    /*private void disconnect(){
-        if (mFusedLocation != null){
-            mFusedLocation.removeLocationUpdates(mLocationCallback);
-            if (mAuthProvider.existSession()){
-                mGeofireProvider.removeLocation(mAuthProvider.getId());
-            }
-        }else {
-            Toast.makeText(this, "No te puedes desconectar", Toast.LENGTH_SHORT).show();
-        }
-    }*/
 }
