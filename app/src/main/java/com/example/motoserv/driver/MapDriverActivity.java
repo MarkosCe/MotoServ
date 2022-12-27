@@ -153,7 +153,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         isDriverWorking();
 
         // Get the Intent that started this activity and extract the string
-        mPreferences = getApplicationContext().getSharedPreferences("typeProvider", MODE_PRIVATE);
+        mPreferences = getApplicationContext().getSharedPreferences("preferences", MODE_PRIVATE);
 
     }
 

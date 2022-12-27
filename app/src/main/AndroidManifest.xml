@@ -21,6 +21,27 @@
         android:theme="@style/Theme.MotoServ"
         tools:targetApi="31">
         <activity
+            android:name=".driver.HistoryActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".driver.UpdateProfileDriverActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".driver.SubscriptionActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".driver.HomeDriverActivity"
             android:exported="false">
             <meta-data

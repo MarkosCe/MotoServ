@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:itemBackground">@color/white_color</item>
     </style>
 
     <!-- tema para el saplash screen. -->
@@ -26,7 +27,7 @@
         <item name="postSplashScreenTheme">@style/Theme.MotoServ</item>
     </style>
     
-    <!-- Tema para el Toolbar -->
+    <!-- Tema para el rating bar -->
     <style name="RatingBar" parent="Theme.MaterialComponents.DayNight">
         <item name="ratingBarStyle">@style/Controls.RatingBar</item>
         <item name="colorControlActivated">@color/quantum_yellow500</item>
