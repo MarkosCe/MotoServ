@@ -1,15 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".driver.UpdateProfileDriverActivity">
 
-    <TextView
+    <include layout="@layout/action_bar_toolbar" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Update Profile"
-        android:textAlignment="center"/>
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <io.github.florent37.shapeofview.shapes.CircleView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:elevation="4dp"
+                app:shape_circle_borderColor="@color/gray_color"
+                app:shape_circle_borderWidth="2dp"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/img_view_profile_driver"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/profile_photo"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Profile picture"/>
+
+            </io.github.florent37.shapeofview.shapes.CircleView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/primary_color"
+                android:src="@drawable/ic_baseline_camera_alt_24"
+                android:layout_gravity="center|bottom"
+                android:layout_marginLeft="60dp"
+                app:borderWidth="0dp"
+                android:contentDescription="Camera icon" />
+
+        </FrameLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_user"
+            app:counterTextColor="@color/black"
+            app:helperTextTextColor="@color/black"
+            app:hintTextColor="@color/black"
+            android:textColorHint="@color/gray_color"
+            app:startIconTint="@color/black"
+            app:boxStrokeColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:hint="Nombre completo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar_profile_driver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:max="100"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:gravity="bottom|center"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            android:id="@+id/btn_listo"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Actualizar perfil"
+            android:backgroundTint="@color/primary_color"
+            android:textColor="@color/white_color"/>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
