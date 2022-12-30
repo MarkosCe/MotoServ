@@ -40,7 +40,7 @@
                     android:id="@+id/img_profile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/profile_photo"
+                    android:src="@drawable/ic_baseline_person_24"
                     android:contentDescription="Profile picture"/>
 
             </io.github.florent37.shapeofview.shapes.CircleView>
@@ -239,7 +239,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -254,7 +254,14 @@
             android:text="Iniciar"
             />
 
-    </LinearLayout>
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="Ir al mapa"
+            />
+
+    </RelativeLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

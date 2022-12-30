@@ -36,7 +36,8 @@
         </activity>
         <activity
             android:name=".driver.UpdateProfileDriverActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".driver.HomeDriverActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
