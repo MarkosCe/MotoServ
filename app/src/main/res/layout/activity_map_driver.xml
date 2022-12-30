@@ -8,14 +8,28 @@
     tools:context=".driver.MapDriverActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
+        app:tint="@color/white_color"
         android:src="@drawable/ic_home"
         android:backgroundTint="@color/color_tint"
         android:layout_gravity="top"
         android:layout_margin="30dp"
         android:contentDescription="back button" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:tint="@color/white_color"
+        android:src="@drawable/ic_baseline_notifications_32"
+        android:backgroundTint="@color/primary_color"
+        android:layout_gravity="top|right"
+        android:layout_margin="30dp"
+        android:contentDescription="notifications button" />
 
     <fragment
         android:id="@+id/map_driver"

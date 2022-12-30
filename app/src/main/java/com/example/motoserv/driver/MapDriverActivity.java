@@ -50,6 +50,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,9 +58,11 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    SharedPreferences mPreferences;
-    Button mButtonConnect;
+    private Button mButtonConnect;
     private boolean isConnect = false;
+
+    private FloatingActionButton mFloatingButton;
+    private FloatingActionButton mFloatingButtonNotify;
 
     private GoogleMap mMap;
 
@@ -98,7 +101,24 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
+        mFloatingButton = findViewById(R.id.floating_home);
+        mFloatingButtonNotify = findViewById(R.id.floating_notifications);
         mButtonConnect = findViewById(R.id.btn_connect_driver);
+
+        mFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToHome();
+            }
+        });
+
+        mFloatingButtonNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNotifications();
+            }
+        });
+
         mButtonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,9 +172,6 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         //verificar si el conductor esta trabajando
         isDriverWorking();
 
-        // Get the Intent that started this activity and extract the string
-        mPreferences = getApplicationContext().getSharedPreferences("preferences", MODE_PRIVATE);
-
     }
 
     @Override
@@ -163,6 +180,16 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         if (mEventListener != null){
             mGeofireProvider.isDriverWorking(mAuthProvider.getId()).removeEventListener(mEventListener);
         }
+    }
+
+    private void showNotifications(){
+        //
+    }
+
+    private void goToHome(){
+        Intent intent = new Intent(MapDriverActivity.this, HomeDriverActivity.class);
+        intent.putExtra("map", true);
+        startActivity(intent);
     }
 
     private void isDriverWorking(){
@@ -316,55 +343,6 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                 ActivityCompat.requestPermissions(MapDriverActivity.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.driver_map_menu, menu);
-        //menu.getItem(R.id.action_home).setVisible(false);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_logout){
-            logOut();
-        }else if (item.getItemId() == R.id.action_profile){
-            goToUpdateProfile();
-        }else if (item.getItemId() == R.id.action_credits){
-            goToCredits();
-        }else if (item.getItemId() == R.id.action_history){
-            goToRideHistory();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void goToUpdateProfile(){
-        Intent intent = new Intent(MapDriverActivity.this, HomeDriverActivity.class);
-        startActivity(intent);
-    }
-
-    private void goToCredits(){
-
-    }
-
-    private void goToRideHistory(){
-
-    }
-
-    private void logOut(){
-        disconnect();
-        String provider= mPreferences.getString("provider", "notype");
-        if (provider != null) {
-            Toast.makeText(MapDriverActivity.this, "No es nulo", Toast.LENGTH_SHORT).show();
-            if (provider.equals("FACEBOOK")) {
-                LoginManager.getInstance().logOut();
-            }
-        }
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(MapDriverActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     private void generateToken(){

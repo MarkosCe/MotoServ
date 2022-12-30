@@ -37,6 +37,9 @@ public class HomeDriverActivity extends AppCompatActivity {
     private CardView mCardViewCredits;
     private CardView mCardViewUpdateProfile;
     private CardView mCardViewHistory;
+    private Button mButtonStart;
+    private Button mButtonGoMap;
+    private Boolean mWhere;
 
     private DriverProvider mDriverProvider;
     private AuthProvider mAuthProvider;
@@ -46,7 +49,7 @@ public class HomeDriverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_driver);
 
-        MyToolbar.show(this, "Home", false);
+        MyToolbar.show(this, "Perfil de conductor", false);
 
         // Get the Intent that started this activity and extract the string
         mPreferences = getApplicationContext().getSharedPreferences("preferences", MODE_PRIVATE);
@@ -59,16 +62,28 @@ public class HomeDriverActivity extends AppCompatActivity {
         mCardViewCredits = findViewById(R.id.card_credits);
         mCardViewUpdateProfile = findViewById(R.id.card_update_profile);
         mCardViewHistory = findViewById(R.id.card_history);
+        mWhere = getIntent().getBooleanExtra("map", false);
         initProfile();
         initCards();
 
-        Button mButtonStart = findViewById(R.id.btn_started);
+        mButtonStart = findViewById(R.id.btn_started);
+        mButtonGoMap = findViewById(R.id.btn_gotomap);
         mButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goMap();
             }
         });
+        mButtonGoMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        if (mWhere){
+            mButtonGoMap.setVisibility(View.VISIBLE);
+            mButtonStart.setVisibility(View.GONE);
+        }
     }
 
     private void initProfile(){
@@ -115,7 +130,7 @@ public class HomeDriverActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomeDriverActivity.this, "Ride History", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(HomeDriverActivity.this, HistoryActivity.class);
+                Intent intent = new Intent(HomeDriverActivity.this, RideHistoryDriverActivity.class);
                 startActivity(intent);
             }
         });
@@ -146,8 +161,10 @@ public class HomeDriverActivity extends AppCompatActivity {
         //disconnect();
         String provider= mPreferences.getString("provider", null);
         if (provider != null) {
-            Toast.makeText(HomeDriverActivity.this, "No es nulo", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, provider, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(HomeDriverActivity.this, "No es nulo", Toast.LENGTH_SHORT).show();
             if (provider.equals("FACEBOOK")) {
+                Toast.makeText(this, provider, Toast.LENGTH_SHORT).show();
                 LoginManager.getInstance().logOut();
             }
         }

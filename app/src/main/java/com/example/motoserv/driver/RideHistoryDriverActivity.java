@@ -27,7 +27,7 @@ public class RideHistoryDriverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride_history_driver);
 
-        //MyToolbar.show(this, "Historial de viajes", true);
+        MyToolbar.show(this, "Historial de viajes", true);
 
         mRecyclerView = findViewById(R.id.recycler_view_history_driver);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
