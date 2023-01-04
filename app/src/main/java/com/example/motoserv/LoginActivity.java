@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.motoserv.client.MapClientActivity;
+import com.example.motoserv.driver.HomeDriverActivity;
 import com.example.motoserv.driver.MapDriverActivity;
+import com.example.motoserv.providers.AuthProvider;
 import com.example.motoserv.providers.ClientProvider;
 import com.example.motoserv.providers.DriverProvider;
 import com.facebook.AccessToken;
@@ -32,6 +34,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 
@@ -47,11 +52,14 @@ public class LoginActivity extends AppCompatActivity {
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
+    private AuthProvider mAuthProvider;
 
     private CallbackManager mCallbackManager;
 
     private ClientProvider mClientProvider;
     private DriverProvider mDriverProvider;
+
+    private boolean userExist = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
+        mAuthProvider = new AuthProvider();
 
         // [START config_signin]
         // Configure Google Sign In
@@ -150,9 +159,9 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
-            String type = mPreferences.getString("typeAcc", "");
-            String finish = mPreferences.getString("finish","");
-            if (finish == null)
+            String type = mPreferences.getString("typeAcc", null);
+            boolean finish = mPreferences.getBoolean("finish", false);
+            if (finish)
                 return;
             if (type == null)
                 return;
@@ -162,11 +171,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }else if (type.equals("Driver")){
                 Intent intent = new Intent(LoginActivity.this, MapDriverActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }else {
-                Toast.makeText(this, type+" jaja", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, SelectAccTypeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
@@ -217,7 +221,9 @@ public class LoginActivity extends AppCompatActivity {
                             //FirebaseUser user = mAuth.getCurrentUser()
                             editor.putString("provider", "GOOGLE");
                             editor.apply();
-                            updateUI();
+                            if (mAuth.getCurrentUser() != null){
+                                checkNodeClients();
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "signInWithCredential:failure", Toast.LENGTH_SHORT).show();
@@ -240,7 +246,10 @@ public class LoginActivity extends AppCompatActivity {
                             //FirebaseUser user = mAuth.getCurrentUser();
                             editor.putString("provider", "FACEBOOK");
                             editor.apply();
-                            updateUI();
+                            //update UI
+                            if (mAuth.getCurrentUser() != null){
+                                checkNodeClients();
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
@@ -250,9 +259,55 @@ public class LoginActivity extends AppCompatActivity {
     }
     // [END auth_with_facebook]
 
-    private void updateUI() {
+    private void updateUIClient() {
         finish();
-        Intent intent = new Intent(LoginActivity.this, SelectAccTypeActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MapClientActivity.class);
         startActivity(intent);
+    }
+
+    private void updateUIDriver() {
+        finish();
+        Intent intent = new Intent(LoginActivity.this, HomeDriverActivity.class);
+        startActivity(intent);
+    }
+
+    private void checkNodeClients(){
+        mClientProvider.getClient(mAuthProvider.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    userExist = true;
+                    updateUIClient();
+                }else{
+                    checkNodeDrivers();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void checkNodeDrivers(){
+        mDriverProvider.getDriver(mAuthProvider.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    userExist = true;
+                    updateUIDriver();
+                }else {
+                    finish();
+                    Intent intent = new Intent(LoginActivity.this, SelectAccTypeActivity.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

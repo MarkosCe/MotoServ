@@ -135,7 +135,9 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
+                Toast.makeText(MapDriverActivity.this, "loacgtionacallback", Toast.LENGTH_SHORT).show();
                 if (locationResult == null) {
+                    Toast.makeText(MapDriverActivity.this, "location null", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
@@ -151,7 +153,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                                 ).title("Tu estás aquí")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_driver)));
                         //localizacion en tiempo real
-                        if (isCameraMove){
+                        //if (isCameraMove){
                             isCameraMove = false;
                             mMap.moveCamera(CameraUpdateFactory.newCameraPosition(
                                     new CameraPosition.Builder()
@@ -159,7 +161,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                                             .zoom(16f)
                                             .build()
                             ));
-                        }
+                        //}
                         updateLocation();
                     }
                 }
@@ -209,7 +211,9 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     private void updateLocation(){
+        Toast.makeText(this, "NO ENTRo", Toast.LENGTH_SHORT).show();
         if (mAuthProvider.existSession() && mCurrentLocation != null) {
+            Toast.makeText(this, "actualizando", Toast.LENGTH_SHORT).show();
             mGeofireProvider.saveLocation(mAuthProvider.getId(), mCurrentLocation);
         }
     }
@@ -309,7 +313,12 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                 if (gpsActive()){
                     mButtonConnect.setText("Desconectar");
                     isConnect = true;
-                    mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                    try {
+                        Toast.makeText(this, "mfuswed", Toast.LENGTH_SHORT).show();
+                        mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                    }catch (Exception e){
+                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }else {
                     showAlertDialog();
                 }

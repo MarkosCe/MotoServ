@@ -127,7 +127,7 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
 
                     Picasso.get().load(image).into(mImageViewProfile);
                     Picasso.get().setIndicatorsEnabled(true);
-                    mTextViewName.setHint(name);
+                    mTextViewName.setText(name);
                 }
             }
 

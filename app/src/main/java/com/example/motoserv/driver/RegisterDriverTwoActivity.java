@@ -67,7 +67,8 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
     }
 
     void updateUserInfo(){
-        editor.putString("finish", "true");
+        editor.putBoolean("finish", true);
+        //editor.putString("finish", "true");
         editor.apply();
         Intent intent = new Intent(RegisterDriverTwoActivity.this, HomeDriverActivity.class);
         startActivity(intent);

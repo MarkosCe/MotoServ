@@ -32,6 +32,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.airbnb.lottie.L;
 import com.example.motoserv.LoginActivity;
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
@@ -81,9 +82,9 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
 
     private Marker mMarker;
 
-    private FusedLocationProviderClient mFusedLocation;
-    private LocationRequest mLocationRequest;
-    private LocationCallback mLocationCallback;
+    FusedLocationProviderClient mFusedLocation;
+    LocationRequest mLocationRequest;
+    //LocationCallback mLocationCallback;
 
     private GeofireProvider mGeofireProvider;
     private LatLng mCurrentLocation;
@@ -110,6 +111,34 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
 
+    LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            if (locationResult == null) {
+                return;
+            }
+            for (Location location : locationResult.getLocations()) {
+                if (getApplicationContext() != null){
+
+                    mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+                    //localizacion en tiempo real
+                    mMap.moveCamera(CameraUpdateFactory.newCameraPosition(
+                            new CameraPosition.Builder()
+                                    .target(new LatLng(location.getLatitude(), location.getLongitude()))
+                                    .zoom(16f)
+                                    .build()
+                    ));
+                    if (mIsFirstTime){
+                        mIsFirstTime = false;
+                        getActiveDrivers();
+                        limitSearch();
+                    }
+                }
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,7 +155,10 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_client);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
+        mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
 
         mButtonRequestDriver = findViewById(R.id.btn_request_driver);
         mButtonRequestDriver.setOnClickListener(new View.OnClickListener() {
@@ -135,36 +167,6 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
                 requestDriver();
             }
         });
-
-        mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
-
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                for (Location location : locationResult.getLocations()) {
-                    if (getApplicationContext() != null){
-
-                        mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-
-                        //localizacion en tiempo real
-                        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(
-                                new CameraPosition.Builder()
-                                        .target(new LatLng(location.getLatitude(), location.getLongitude()))
-                                        .zoom(16f)
-                                        .build()
-                        ));
-                        if (mIsFirstTime){
-                            mIsFirstTime = false;
-                            getActiveDrivers();
-                            limitSearch();
-                        }
-                    }
-                }
-            }
-        };
 
         if (!Places.isInitialized()){
            Places.initialize(getApplicationContext(), MAPS_API_KEY);
@@ -325,7 +327,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         });
     }
 
-    @SuppressLint("MissingPermission")
+    //@SuppressLint("MissingPermission")
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -341,14 +343,19 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
 
         /*LocationRequest.Builder builder= new LocationRequest.Builder(mLocationRequest);
         builder.build();*/
+        mLocationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY)
+                .setIntervalMillis(10000)
+                .setMinUpdateIntervalMillis(5000)
+                .setMinUpdateDistanceMeters(5)
+                .build();
 
-
-        mLocationRequest = LocationRequest.create()
+        /*mLocationRequest = LocationRequest.create()
                 .setInterval(10000)
                 .setFastestInterval(5000)
                 .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-                .setSmallestDisplacement(5);
+                .setSmallestDisplacement(5);*/
 
+        Toast.makeText(this, "0nmapready", Toast.LENGTH_SHORT).show();
         startLocation();
     }
 
@@ -360,6 +367,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                     if (gpsActive()){
+                        Toast.makeText(this, "gpsmove", Toast.LENGTH_SHORT).show();
                         mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                         mMap.setMyLocationEnabled(true);
                     }else {
@@ -411,8 +419,10 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                 if (gpsActive()){
+                    Toast.makeText(this, "startlocation", Toast.LENGTH_SHORT).show();
                     mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                     mMap.setMyLocationEnabled(true);
+                    Toast.makeText(this, "endstartlocation", Toast.LENGTH_SHORT).show();
                 }else {
                     showAlertDialog();
                 }
@@ -421,6 +431,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
             }
         }else {
             if (gpsActive()){
+                Toast.makeText(this, "startl0ca", Toast.LENGTH_SHORT).show();
                 mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                 mMap.setMyLocationEnabled(true);
             }else {

@@ -14,6 +14,7 @@
         android:orientation="vertical">
 
         <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:lottie_rawRes="@raw/dotsloading"
