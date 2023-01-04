@@ -20,8 +20,6 @@ public class RideHistoryDriverActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RideHistoryAdapter mAdapter;
 
-    private AuthProvider mAuthProvider;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +35,7 @@ public class RideHistoryDriverActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAuthProvider = new AuthProvider();
+        AuthProvider mAuthProvider = new AuthProvider();
         Query query = FirebaseDatabase.getInstance().getReference()
                                     .child("RideHistory").orderByChild("idDriver")
                                     .equalTo(mAuthProvider.getId());

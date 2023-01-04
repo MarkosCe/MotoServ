@@ -6,14 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".driver.RideHistoryDriverActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primary_color"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:titleTextColor="@color/white_color"
-        app:title="Hola"/>
+    <include layout="@layout/action_bar_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_history_driver"

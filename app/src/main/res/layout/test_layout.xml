@@ -8,23 +8,24 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
+        app:fabSize="mini"
+        android:scaleType="center"
         android:src="@drawable/ic_home"
-        app:tint="@color/white_color"
         android:backgroundTint="@color/color_tint"
-        android:layout_gravity="top"
+        android:layout_gravity="right"
         android:layout_margin="30dp"
         android:contentDescription="back button" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        app:tint="@color/white_color"
+        android:scaleType="center"
+        app:fabSize="mini"
         android:src="@drawable/ic_baseline_notifications_32"
         android:backgroundTint="@color/primary_color"
-        android:layout_gravity="top|right"
-        android:layout_margin="30dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="80dp"
+        android:layout_marginRight="30dp"
         android:contentDescription="back button" />
 
     <Button

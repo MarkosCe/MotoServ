@@ -31,6 +31,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,6 +45,7 @@ public class RegisterDriverActivity extends AppCompatActivity {
     TextInputEditText mTextInputUserName;
     RadioGroup mGender;
     ImageView mImageViewProfile;
+    FloatingActionButton mFloatingButton;
 
     SharedPreferences mPreferences;
 
@@ -72,10 +74,11 @@ public class RegisterDriverActivity extends AppCompatActivity {
         mGender = findViewById(R.id.group_button_gender);
         mImageViewProfile = findViewById(R.id.img_view_profile_driver);
         mProgressBar = findViewById(R.id.progress_bar_profile_driver);
+        mFloatingButton = findViewById(R.id.button_select_profile);
 
         mProgressBar.setVisibility(View.GONE);
 
-        mImageViewProfile.setOnClickListener(new View.OnClickListener() {
+        mFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imageChooser();

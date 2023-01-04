@@ -79,7 +79,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
 
     private ValueEventListener mEventListener;
 
-    private boolean isCameraMove = false;
+    private boolean isCameraMove = true;
 
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
@@ -89,7 +89,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_driver);
 
-        MyToolbar.show(this, "Mapa", false);
+        //MyToolbar.show(this, "Mapa", false);
 
         mGeofireProvider = new GeofireProvider("active_drivers");
         mAuthProvider = new AuthProvider();
