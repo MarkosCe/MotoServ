@@ -26,6 +26,8 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor editor;
 
+    String typeAccount;
+
     private static final int IMAGE_INE_CODE = 101;
     private static final int IMAGE_COMPROB_CODE = 102;
 
@@ -37,6 +39,8 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
         MyToolbar.show(this, "Completar registro", false);
         mPreferences = getApplication().getSharedPreferences("preferences", MODE_PRIVATE);
         editor = mPreferences.edit();
+
+        typeAccount = getIntent().getStringExtra("typeAcc");
 
         mImageViewIne = findViewById(R.id.image_view_ine);
         mImageViewComprob = findViewById(R.id.image_view_cdomicilio);
@@ -68,7 +72,7 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
 
     void updateUserInfo(){
         editor.putBoolean("finish", true);
-        //editor.putString("finish", "true");
+        editor.putString("typeAcc", typeAccount);
         editor.apply();
         Intent intent = new Intent(RegisterDriverTwoActivity.this, HomeDriverActivity.class);
         startActivity(intent);

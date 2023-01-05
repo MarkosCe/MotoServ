@@ -61,7 +61,7 @@
                         android:id="@+id/txt_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Jonathan Luis Rios lopezx campos"
+                        android:text=""
                         android:textStyle="bold"
                         android:textColor="@color/white_color"
                         android:textSize="28sp" />
@@ -70,7 +70,7 @@
                         android:id="@+id/txt_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Conductor"
+                        android:text=""
                         android:textColor="@color/white_color"
                         android:textSize="18sp" />
 
@@ -106,6 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Creditos"
+                    android:textColor="@color/quantum_grey700"
                     app:drawableTopCompat="@drawable/ic_coin"
                     android:textAlignment="center"
                     android:maxLines="2"
@@ -130,6 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Actualizar perfil"
+                    android:textColor="@color/quantum_grey700"
                     app:drawableTopCompat="@drawable/ic_user_single"
                     android:textAlignment="center"
                     android:maxLines="2"
@@ -154,6 +156,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Historial de viajes"
+                    android:textColor="@color/quantum_grey700"
                     app:drawableTopCompat="@drawable/ic_historial"
                     android:textAlignment="center"
                     android:maxLines="2"
@@ -203,15 +206,17 @@
                 android:drawableLeft="@drawable/ic_baseline_warning_24"
                 android:layout_marginHorizontal="10dp"/>
 
-            <TextView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Para reducir el riesgo de accidentes en la vía pública debemos fomentar una cultura vial en la que todas y todos nos cuidamos"
-                android:textSize="14sp"
-                android:background="#E9FFF7"
-                android:textColor="@color/black_second"
-                android:padding="8dp"
-                android:layout_marginHorizontal="8dp"/>
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"/>
+
+            </FrameLayout>
 
         </LinearLayout>
 
@@ -230,14 +235,6 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Iniciar"
-            />
-
-        <Button
-            android:id="@+id/btn_gotomap"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="Ir al mapa"
             />
 
     </RelativeLayout>

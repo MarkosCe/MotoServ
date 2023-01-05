@@ -1,5 +1,6 @@
 package com.example.motoserv.driver;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
@@ -21,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,6 +96,14 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         mGeofireProvider = new GeofireProvider("active_drivers");
         mAuthProvider = new AuthProvider();
         mTokenProvider = new TokenProvider();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                moveTaskToBack(true);
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -179,6 +189,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Toast.makeText(this, "ondestroy", Toast.LENGTH_SHORT).show();
         if (mEventListener != null){
             mGeofireProvider.isDriverWorking(mAuthProvider.getId()).removeEventListener(mEventListener);
         }
@@ -313,12 +324,8 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                 if (gpsActive()){
                     mButtonConnect.setText("Desconectar");
                     isConnect = true;
-                    try {
-                        Toast.makeText(this, "mfuswed", Toast.LENGTH_SHORT).show();
-                        mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-                    }catch (Exception e){
-                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(this, "mfuswed", Toast.LENGTH_SHORT).show();
+                    mFusedLocation.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                 }else {
                     showAlertDialog();
                 }

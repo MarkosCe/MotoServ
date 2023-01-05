@@ -47,15 +47,17 @@ public class SelectAccTypeActivity extends AppCompatActivity {
     }
     public void onRadioButtonClicked(View view) {
         if (mRbtnPass.isChecked()){
-            editor.putString("typeAcc", "Client");
-            editor.apply();
+            //editor.putString("typeAcc", "Client");
+            //editor.apply();
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterClientActivity.class);
+            intent.putExtra("typeAcc", "Client");
             startActivity(intent);
             finish();
         }else if (mRbtnDriver.isChecked()){
-            editor.putString("typeAcc", "Driver");
-            editor.apply();
+            //editor.putString("typeAcc", "Driver");
+            //editor.apply();
             Intent intent = new Intent(SelectAccTypeActivity.this, RegisterDriverActivity.class);
+            intent.putExtra("typeAcc", "Driver");
             startActivity(intent);
             finish();
         }else {

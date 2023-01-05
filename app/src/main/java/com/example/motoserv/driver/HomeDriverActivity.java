@@ -49,7 +49,8 @@ public class HomeDriverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_driver);
 
-        MyToolbar.show(this, "Perfil de conductor", false);
+        mWhere = getIntent().getBooleanExtra("map", false);
+        MyToolbar.show(this, "Perfil de conductor", mWhere);
 
         // Get the Intent that started this activity and extract the string
         mPreferences = getApplicationContext().getSharedPreferences("preferences", MODE_PRIVATE);
@@ -62,26 +63,26 @@ public class HomeDriverActivity extends AppCompatActivity {
         mCardViewCredits = findViewById(R.id.card_credits);
         mCardViewUpdateProfile = findViewById(R.id.card_update_profile);
         mCardViewHistory = findViewById(R.id.card_history);
-        mWhere = getIntent().getBooleanExtra("map", false);
+
         initProfile();
         initCards();
 
         mButtonStart = findViewById(R.id.btn_started);
-        mButtonGoMap = findViewById(R.id.btn_gotomap);
+        //mButtonGoMap = findViewById(R.id.btn_gotomap);
         mButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goMap();
             }
         });
-        mButtonGoMap.setOnClickListener(new View.OnClickListener() {
+        /*mButtonGoMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                goMap();
             }
-        });
+        });*/
         if (mWhere){
-            mButtonGoMap.setVisibility(View.VISIBLE);
+            //mButtonGoMap.setVisibility(View.VISIBLE);
             mButtonStart.setVisibility(View.GONE);
         }
     }
@@ -150,7 +151,10 @@ public class HomeDriverActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_logout){
+        /*if (item.getItemId() == android.R.id.home){
+            Toast.makeText(this, "backckckckkc", Toast.LENGTH_SHORT).show();
+            finish();
+        }else*/ if (item.getItemId() == R.id.action_logout){
             Toast.makeText(this, "Salir", Toast.LENGTH_SHORT).show();
             logOut();
         }
@@ -169,8 +173,10 @@ public class HomeDriverActivity extends AppCompatActivity {
             }
         }
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(HomeDriverActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        if (mPreferences.edit().clear().commit()){
+            Intent intent = new Intent(HomeDriverActivity.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        }
     }
 }

@@ -159,20 +159,30 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            Toast.makeText(this, "user auth", Toast.LENGTH_SHORT).show();
             String type = mPreferences.getString("typeAcc", null);
             boolean finish = mPreferences.getBoolean("finish", false);
-            if (finish)
+            if (!finish) {
+                //Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
                 return;
-            if (type == null)
+            }
+            Toast.makeText(this, "not finish", Toast.LENGTH_SHORT).show();
+            if (type == null){
+                //Toast.makeText(this, "not type", Toast.LENGTH_SHORT).show();
                 return;
+            }
             if (type.equals("Client")){
+                Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, MapClientActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
             }else if (type.equals("Driver")){
+                Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, MapDriverActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
             }
         }
         // Check for existing Google Sign In account, if the user is already signed in
@@ -277,6 +287,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     userExist = true;
+                    editor.putString("typeAcc", "Client");
+                    editor.apply();
                     updateUIClient();
                 }else{
                     checkNodeDrivers();
@@ -296,6 +308,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     userExist = true;
+                    //editor.putBoolean("finish", true);
+                    editor.putString("typeAcc", "Driver");
+                    editor.apply();
                     updateUIDriver();
                 }else {
                     finish();

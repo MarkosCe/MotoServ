@@ -48,6 +48,7 @@ public class RegisterDriverActivity extends AppCompatActivity {
     FloatingActionButton mFloatingButton;
 
     SharedPreferences mPreferences;
+    String typeAcc;
 
     private AuthProvider mAuthProvider;
     DriverProvider mDriverProvider;
@@ -77,6 +78,8 @@ public class RegisterDriverActivity extends AppCompatActivity {
         mFloatingButton = findViewById(R.id.button_select_profile);
 
         mProgressBar.setVisibility(View.GONE);
+
+        typeAcc = getIntent().getStringExtra("typeAcc");
 
         mFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +173,11 @@ public class RegisterDriverActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     mProgressBar.setVisibility(View.GONE);
                     Toast.makeText(RegisterDriverActivity.this, "Registradooo", Toast.LENGTH_SHORT).show();
+                    if (typeAcc != null){
+                        Toast.makeText(RegisterDriverActivity.this, typeAcc, Toast.LENGTH_SHORT).show();
+                    }
                     Intent intent = new Intent(RegisterDriverActivity.this, RegisterDriverTwoActivity.class);
+                    intent.putExtra("typeAcc", typeAcc);
                     startActivity(intent);
                     finish();
                 }else {

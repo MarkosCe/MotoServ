@@ -45,7 +45,8 @@
         </activity>
         <activity
             android:name=".driver.HomeDriverActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".driver.MapDriverActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

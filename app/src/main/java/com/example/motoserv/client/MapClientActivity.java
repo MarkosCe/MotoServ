@@ -479,7 +479,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     void logOut(){
-        String provider= mPreferences.getString("provider", "notype");
+        String provider= mPreferences.getString("provider", null);
         if (provider != null) {
             Toast.makeText(MapClientActivity.this, "No es nulo", Toast.LENGTH_SHORT).show();
             if (provider.equals("FACEBOOK")) {
