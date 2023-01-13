@@ -2,6 +2,7 @@ package com.example.motoserv.client;
 
 import static com.example.motoserv.BuildConfig.MAPS_API_KEY;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.motoserv.R;
 import com.example.motoserv.providers.AuthProvider;
@@ -120,6 +122,14 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
         mTextViewOriginBooking = findViewById(R.id.text_view_origin_driver_booking);
         mTextViewDestinationBooking = findViewById(R.id.text_view_destination_driver_booking);
         mTextViewStatus = findViewById(R.id.text_view_status);
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                moveTaskToBack(true);
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -284,6 +294,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
     }
 
     private void drawRoute(LatLng latLng){
+        Toast.makeText(this, "Dibujando Ruta: Cliente", Toast.LENGTH_SHORT).show();
         mGoogleApiProvider.getDirections(mDriverLatLng, latLng).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

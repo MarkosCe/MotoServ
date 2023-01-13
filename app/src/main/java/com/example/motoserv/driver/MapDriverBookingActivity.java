@@ -1,5 +1,6 @@
 package com.example.motoserv.driver;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
@@ -135,6 +136,13 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         mButtonFinish = findViewById(R.id.btn_finish_drive);
 
         //mButtonStart.setEnabled(false);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                moveTaskToBack(true);
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
 
         mExtraClientId = getIntent().getStringExtra("idClient");
 
@@ -155,6 +163,11 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 if (locationResult == null) {
+                    if (mIsFirstTime){
+                        mIsFirstTime = false;
+                        getClientBooking();
+                        getFirstDistance();
+                    }
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
@@ -182,6 +195,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                         if (mIsFirstTime){
                             mIsFirstTime = false;
                             getClientBooking();
+                            getFirstDistance();
                         }
                     }
                 }
@@ -261,6 +275,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
+                    Toast.makeText(MapDriverBookingActivity.this, "Booking encontrado", Toast.LENGTH_SHORT).show();
                     String destination = String.valueOf(snapshot.child("destination").getValue());
                     String origin = String.valueOf(snapshot.child("origin").getValue());
                     double destinationLat = Double.parseDouble(snapshot.child("destinationLat").getValue().toString());
@@ -307,6 +322,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     }
 
     private void drawRoute(LatLng latLng){
+        Toast.makeText(this, "Dibujando ruta: Driver", Toast.LENGTH_SHORT).show();
         mGoogleApiProvider.getDirections(mCurrentLocation, latLng).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -346,13 +362,26 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         });
     }
 
+    private void getFirstDistance(){
+        if (!mIsDistanceClose){
+            if (mOriginlatlng != null && mCurrentLocation != null){
+                double distance = getDistanceBetween(mOriginlatlng, mCurrentLocation); //retorna en metros
+                if (distance <= 50){
+                    //mButtonStart.setEnabled(true);
+                    mIsDistanceClose = true;
+                    Toast.makeText(this, "Estas cerca del lugar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
     private void updateLocation(){
         if (mAuthProvider.existSession() && mCurrentLocation != null) {
             mGeofireProvider.saveLocation(mAuthProvider.getId(), mCurrentLocation);
             if (!mIsDistanceClose){
                 if (mOriginlatlng != null && mCurrentLocation != null){
                     double distance = getDistanceBetween(mOriginlatlng, mCurrentLocation); //retorna en metros
-                    if (distance <= 10){
+                    if (distance <= 50){
                         //mButtonStart.setEnabled(true);
                         mIsDistanceClose = true;
                         Toast.makeText(this, "Estas cerca del lugar", Toast.LENGTH_SHORT).show();

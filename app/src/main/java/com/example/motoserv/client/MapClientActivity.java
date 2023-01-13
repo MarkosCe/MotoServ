@@ -2,6 +2,7 @@ package com.example.motoserv.client;
 
 import static com.example.motoserv.BuildConfig.MAPS_API_KEY;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
@@ -151,6 +152,14 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         mGeofireProvider = new GeofireProvider("active_drivers");
 
         mTokenProvider = new TokenProvider();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                moveTaskToBack(true);
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -487,9 +496,11 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
             }
         }
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(MapClientActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        if (mPreferences.edit().clear().commit()) {
+            Intent intent = new Intent(MapClientActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void generateToken(){

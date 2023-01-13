@@ -1,5 +1,6 @@
 package com.example.motoserv.driver;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -51,6 +52,16 @@ public class HomeDriverActivity extends AppCompatActivity {
 
         mWhere = getIntent().getBooleanExtra("map", false);
         MyToolbar.show(this, "Perfil de conductor", mWhere);
+
+        if (!mWhere){
+            OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+                @Override
+                public void handleOnBackPressed() {
+                    moveTaskToBack(true);
+                }
+            };
+            this.getOnBackPressedDispatcher().addCallback(this, callback);
+        }
 
         // Get the Intent that started this activity and extract the string
         mPreferences = getApplicationContext().getSharedPreferences("preferences", MODE_PRIVATE);
@@ -151,10 +162,10 @@ public class HomeDriverActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        /*if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home){
             Toast.makeText(this, "backckckckkc", Toast.LENGTH_SHORT).show();
-            finish();
-        }else*/ if (item.getItemId() == R.id.action_logout){
+            onBackPressed();
+        }else if (item.getItemId() == R.id.action_logout){
             Toast.makeText(this, "Salir", Toast.LENGTH_SHORT).show();
             logOut();
         }

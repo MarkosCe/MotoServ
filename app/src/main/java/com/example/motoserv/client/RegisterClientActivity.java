@@ -48,7 +48,10 @@ public class RegisterClientActivity extends AppCompatActivity {
     RadioGroup mGender;
     ImageView mImageViewProfile;
 
-    SharedPreferences mPreferences;
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor editor;
+
+    String typeAccount;
 
     private AuthProvider mAuthProvider;
     ClientProvider mClientProvider;
@@ -71,6 +74,9 @@ public class RegisterClientActivity extends AppCompatActivity {
         mAuthProvider = new AuthProvider();
         //mAuth = FirebaseAuth.getInstance();
         mPreferences = getApplication().getSharedPreferences("preferences", MODE_PRIVATE);
+        editor = mPreferences.edit();
+
+        typeAccount = getIntent().getStringExtra("typeAcc");
 
         mTextInputUserName = findViewById(R.id.input_name_client);
         mGender = findViewById(R.id.groupbtn_gender_client);
@@ -137,6 +143,9 @@ public class RegisterClientActivity extends AppCompatActivity {
         String userName = String.valueOf(mTextInputUserName.getText());
         if (!userName.equals("") && mGender.getCheckedRadioButtonId() != -1 && mImageFile != null) {
             mProgressBar.setVisibility(View.VISIBLE);
+            editor.putBoolean("finish", true);
+            editor.putString("typeAcc", typeAccount);
+            editor.apply();
             Client client = new Client();
             client.setId(id);
             client.setProvider(mPreferences.getString("provider", ""));
