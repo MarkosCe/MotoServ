@@ -161,7 +161,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
         mLocationCallback = new LocationCallback() {
             @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
+            public void onLocationResult(LocationResult locationResult) {
                 if (locationResult == null) {
                     if (mIsFirstTime){
                         mIsFirstTime = false;

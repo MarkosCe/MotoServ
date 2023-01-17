@@ -211,6 +211,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         mAutocomplete = (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.places_autocomplete_origin);
         mAutocomplete.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME));
         mAutocomplete.setHint("Origen");
+        mAutocomplete.setText("");
         mAutocomplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onError(@NonNull Status status) {

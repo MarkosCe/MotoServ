@@ -48,7 +48,7 @@
             android:background="@color/white_color"
             app:cardCornerRadius="15dp">
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/places_autocomplete_destination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,8 +60,9 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_location_c"
-        android:layout_gravity="center"/>
+        android:src="@drawable/ic_baseline_location_on_24"
+        android:layout_gravity="center"
+        android:contentDescription="icon location" />
 
     <Button
         android:id="@+id/btn_request_driver"

@@ -288,6 +288,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (snapshot.exists()){
                     userExist = true;
                     editor.putString("typeAcc", "Client");
+                    editor.putBoolean("finish", true);
                     editor.apply();
                     updateUIClient();
                 }else{
@@ -310,6 +311,7 @@ public class LoginActivity extends AppCompatActivity {
                     userExist = true;
                     //editor.putBoolean("finish", true);
                     editor.putString("typeAcc", "Driver");
+                    editor.putBoolean("finish", true);
                     editor.apply();
                     updateUIDriver();
                 }else {
