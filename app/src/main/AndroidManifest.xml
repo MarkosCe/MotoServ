@@ -72,6 +72,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".driver.PaymentDriverActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".client.RateDriverActivity"
             android:exported="false">
             <meta-data

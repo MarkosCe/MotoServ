@@ -244,12 +244,18 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         /*LocationRequest.Builder builder= new LocationRequest.Builder(mLocationRequest);
         builder.build();*/
 
+        mLocationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY)
+                .setIntervalMillis(10000)
+                .setMinUpdateIntervalMillis(5000)
+                .setMinUpdateDistanceMeters(5)
+                .build();
 
-        mLocationRequest = LocationRequest.create()
+
+        /*mLocationRequest = LocationRequest.create()
                 .setInterval(10000)
                 .setFastestInterval(5000)
                 .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-                .setSmallestDisplacement(5);
+                .setSmallestDisplacement(5);*/
     }
 
     @SuppressLint("MissingPermission")

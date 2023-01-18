@@ -163,15 +163,18 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult == null) {
-                    if (mIsFirstTime){
+                    Toast.makeText(MapDriverBookingActivity.this, "null aaa", Toast.LENGTH_SHORT).show();
+                    /*if (mIsFirstTime){
                         mIsFirstTime = false;
                         getClientBooking();
                         getFirstDistance();
-                    }
+                    }*/
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
                     if (getApplicationContext() != null){
+
+                        Toast.makeText(MapDriverBookingActivity.this, "result", Toast.LENGTH_SHORT).show();
 
                         mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -190,13 +193,16 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                                         .build()
                         ));
 
-                        updateLocation();
+                        if (!mIsFirstTime)
+                            updateLocation();
 
                         if (mIsFirstTime){
+                            Toast.makeText(MapDriverBookingActivity.this, "isFirstTime", Toast.LENGTH_SHORT).show();
                             mIsFirstTime = false;
                             getClientBooking();
-                            getFirstDistance();
+                            //getFirstDistance();
                         }
+
                     }
                 }
             }
@@ -275,14 +281,14 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    Toast.makeText(MapDriverBookingActivity.this, "Booking encontrado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapDriverBookingActivity.this, "encontradooooooooooooo", Toast.LENGTH_SHORT).show();
                     String destination = String.valueOf(snapshot.child("destination").getValue());
                     String origin = String.valueOf(snapshot.child("origin").getValue());
-                    double destinationLat = Double.parseDouble(snapshot.child("destinationLat").getValue().toString());
-                    double destinationLng = Double.parseDouble(snapshot.child("destinationLng").getValue().toString());
+                    double destinationLat = Double.parseDouble(String.valueOf(snapshot.child("destinationLat").getValue()));
+                    double destinationLng = Double.parseDouble(String.valueOf(snapshot.child("destinationLng").getValue()));
 
-                    double originLat = Double.parseDouble(snapshot.child("originLat").getValue().toString());
-                    double originLng = Double.parseDouble(snapshot.child("originLng").getValue().toString());
+                    double originLat = Double.parseDouble(String.valueOf(snapshot.child("originLat").getValue()));
+                    double originLng = Double.parseDouble(String.valueOf(snapshot.child("originLng").getValue()));
 
                     mOriginlatlng = new LatLng(originLat, originLng);
                     mDestinationLatlng = new LatLng(destinationLat, destinationLng);
@@ -294,6 +300,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
                     //ruta del conductor hacia el usuario(cliente)
                     drawRoute(mOriginlatlng);
+                    updateLocation();
                 }
             }
 
@@ -376,12 +383,18 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
     }
 
     private void updateLocation(){
+        Toast.makeText(this, "Update 1", Toast.LENGTH_SHORT).show();
         if (mAuthProvider.existSession() && mCurrentLocation != null) {
+            Toast.makeText(this, "Update 2", Toast.LENGTH_SHORT).show();
             mGeofireProvider.saveLocation(mAuthProvider.getId(), mCurrentLocation);
             if (!mIsDistanceClose){
-                if (mOriginlatlng != null && mCurrentLocation != null){
+                Toast.makeText(this, "Update 3", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, mOriginlatlng.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, mCurrentLocation.toString(), Toast.LENGTH_SHORT).show();
+                if (mOriginlatlng != null && mCurrentLocation != null) {
+                    Toast.makeText(this, "Update 4", Toast.LENGTH_SHORT).show();
                     double distance = getDistanceBetween(mOriginlatlng, mCurrentLocation); //retorna en metros
-                    if (distance <= 50){
+                    if (distance <= 50) {
                         //mButtonStart.setEnabled(true);
                         mIsDistanceClose = true;
                         Toast.makeText(this, "Estas cerca del lugar", Toast.LENGTH_SHORT).show();
@@ -406,12 +419,18 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         /*LocationRequest.Builder builder= new LocationRequest.Builder(mLocationRequest);
         builder.build();*/
 
+        mLocationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY)
+                .setIntervalMillis(10000)
+                .setMinUpdateIntervalMillis(5000)
+                .setMinUpdateDistanceMeters(5)
+                .build();
 
-        mLocationRequest = LocationRequest.create()
+
+        /*mLocationRequest = LocationRequest.create()
                 .setInterval(10000)
                 .setFastestInterval(5000)
                 .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-                .setSmallestDisplacement(5);
+                .setSmallestDisplacement(5);*/
 
         startLocation();
     }

@@ -145,7 +145,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_client);
 
-        MyToolbar.show(this, "Cliente", false);
+        //MyToolbar.show(this, "Cliente", false);
 
         mAuth = new AuthProvider();
 
