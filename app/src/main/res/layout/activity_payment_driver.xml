@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:text="$12.00 MXN"
+            android:text="$0.00 MXN"
             android:textSize="20sp"
             android:layout_marginTop="5dp"/>
 
@@ -71,11 +71,12 @@
             android:orientation="horizontal"
             android:gravity="bottom|center">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_accept_payment"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:text="aceptar pago"
+                app:cornerRadius="12dp"
                 android:backgroundTint="@color/primary_color"
                 android:textColor="@color/white_color"
                 android:layout_marginBottom="20dp"

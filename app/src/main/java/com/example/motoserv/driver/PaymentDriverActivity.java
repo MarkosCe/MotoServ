@@ -1,9 +1,11 @@
 package com.example.motoserv.driver;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RawRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -42,6 +44,14 @@ public class PaymentDriverActivity extends AppCompatActivity {
         mButtonAccept = findViewById(R.id.btn_accept_payment);
 
         mClientBookingProvider = new ClientBookingProvider();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                moveTaskToBack(true);
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
 
         mExtraIdClient = getIntent().getStringExtra("idClient");
 
@@ -83,6 +93,7 @@ public class PaymentDriverActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateUi(){
         mAnimationView.setAnimation(R.raw.dcoin);
         mTextViewStatus.setText("Pago recibido");

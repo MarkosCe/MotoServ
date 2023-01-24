@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -207,17 +208,17 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
                     String idDriver = String.valueOf(snapshot.child("idDriver").getValue());
                     mIdDriver = idDriver;
 
-                    double destinationLat = Double.parseDouble(snapshot.child("destinationLat").getValue().toString());
-                    double destinationLng = Double.parseDouble(snapshot.child("destinationLng").getValue().toString());
+                    double destinationLat = Double.parseDouble(String.valueOf(snapshot.child("destinationLat").getValue()));
+                    double destinationLng = Double.parseDouble(String.valueOf(snapshot.child("destinationLng").getValue()));
 
-                    double originLat = Double.parseDouble(snapshot.child("originLat").getValue().toString());
-                    double originLng = Double.parseDouble(snapshot.child("originLng").getValue().toString());
+                    double originLat = Double.parseDouble(String.valueOf(snapshot.child("originLat").getValue()));
+                    double originLng = Double.parseDouble(String.valueOf(snapshot.child("originLng").getValue()));
 
                     mOriginlatlng = new LatLng(originLat, originLng);
                     mDestinationLatlng = new LatLng(destinationLat, destinationLng);
 
-                    mTextViewOriginBooking.setText("Origen:" + origin);
-                    mTextViewDestinationBooking.setText("Destino" + destination);
+                    mTextViewOriginBooking.setText("Origen: " + origin);
+                    mTextViewDestinationBooking.setText("Destino: " + destination);
 
                     mMap.addMarker(new MarkerOptions().position(mOriginlatlng).title("AQUI").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_red)));
 
@@ -225,7 +226,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
                     getDriver(idDriver);
 
                     //Obtner posicion del conductor
-                    getDriverLoaction(idDriver);
+                    getDriverLocation(idDriver);
                 }
             }
 
@@ -238,11 +239,12 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
 
     public void getDriver(String idDriver){
         mDriverProvider.getDriver(idDriver).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     String name = (String) snapshot.child("name").getValue();
-                    mTextViewDriverBooking.setText(name);
+                    mTextViewDriverBooking.setText("Nombre del conductor: " + name);
                 }
             }
 
@@ -253,7 +255,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
         });
     }
 
-    public void getDriverLoaction(String idDriver){
+    public void getDriverLocation(String idDriver){
         mEventListener = mGeofireProvider.getDriverLocation(idDriver).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -269,7 +271,7 @@ public class MapClientBookingActivity extends AppCompatActivity implements OnMap
 
                     mMarkerDriver = mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng))
                                         .title("Conductor")
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_driver)));
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_driver_24)));
 
                     if (mIsFirstTime){
                         mIsFirstTime = false;

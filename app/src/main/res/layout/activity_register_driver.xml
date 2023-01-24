@@ -29,6 +29,11 @@
                 app:shape_circle_borderWidth="2dp"
                 android:layout_gravity="center">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white_color"/>
+
                 <ImageView
                     android:id="@+id/img_view_profile_driver"
                     android:layout_width="match_parent"
@@ -117,11 +122,12 @@
             android:orientation="horizontal"
             android:gravity="bottom|center">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_listo"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
-                android:text="Empezar"
+                android:text="Siguiente"
+                app:cornerRadius="12dp"
                 android:backgroundTint="@color/primary_color"
                 android:textColor="@color/white_color"
                 android:layout_marginBottom="20dp"/>

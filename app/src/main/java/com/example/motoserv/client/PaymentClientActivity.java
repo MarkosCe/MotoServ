@@ -1,5 +1,6 @@
 package com.example.motoserv.client;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,6 +33,14 @@ public class PaymentClientActivity extends AppCompatActivity {
 
         mAuthProvider = new AuthProvider();
         mClientBookingProvider = new ClientBookingProvider();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                moveTaskToBack(true);
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
 
         mButtonPay.setOnClickListener(new View.OnClickListener() {
             @Override

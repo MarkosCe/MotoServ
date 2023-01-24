@@ -158,12 +158,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        String type1 = mPreferences.getString("typeAcc", null);
+        if (type1 == null)
+            Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
             Toast.makeText(this, "user auth", Toast.LENGTH_SHORT).show();
             String type = mPreferences.getString("typeAcc", null);
             boolean finish = mPreferences.getBoolean("finish", false);
             if (!finish) {
-                //Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "finiscjijdjd", Toast.LENGTH_SHORT).show();
                 return;
             }
             Toast.makeText(this, "not finish", Toast.LENGTH_SHORT).show();
@@ -173,13 +176,14 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (type.equals("Client")){
                 Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "aquiii", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, MapClientActivity.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }else if (type.equals("Driver")){
                 Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, MapDriverActivity.class);
+                Intent intent = new Intent(LoginActivity.this, HomeDriverActivity.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -270,15 +274,15 @@ public class LoginActivity extends AppCompatActivity {
     // [END auth_with_facebook]
 
     private void updateUIClient() {
-        finish();
         Intent intent = new Intent(LoginActivity.this, MapClientActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void updateUIDriver() {
-        finish();
         Intent intent = new Intent(LoginActivity.this, HomeDriverActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void checkNodeClients(){
@@ -287,6 +291,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     userExist = true;
+                    Toast.makeText(LoginActivity.this, "nodeClient", Toast.LENGTH_SHORT).show();
                     editor.putString("typeAcc", "Client");
                     editor.putBoolean("finish", true);
                     editor.apply();
@@ -309,6 +314,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     userExist = true;
+                    Toast.makeText(LoginActivity.this, "NodeDriver", Toast.LENGTH_SHORT).show();
+                    boolean finish = mPreferences.getBoolean("finish", false);
                     //editor.putBoolean("finish", true);
                     editor.putString("typeAcc", "Driver");
                     editor.putBoolean("finish", true);

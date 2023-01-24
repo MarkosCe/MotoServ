@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="INE"
+            android:textStyle="bold"
             android:textColor="@color/black" />
 
         <Button
@@ -41,6 +42,7 @@
             android:layout_height="wrap_content"
             android:text="Comprobante de domicilio"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:layout_marginTop="15dp" />
 
         <Button
@@ -63,11 +65,12 @@
             android:orientation="horizontal"
             android:gravity="bottom|center">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_listo_two"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:text="Empezar"
+                app:cornerRadius="12dp"
                 android:backgroundTint="@color/primary_color"
                 android:textColor="@color/white_color"
                 android:layout_marginBottom="20dp"/>

@@ -184,7 +184,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
                         mMarker = mMap.addMarker(new MarkerOptions().position(
                                         new LatLng(location.getLatitude(), location.getLongitude())
                                 ).title("Tu estás aquí")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_driver)));
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_driver_24)));
                         //localizacion en tiempo real
                         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(
                                 new CameraPosition.Builder()
@@ -237,6 +237,7 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
         //limpiar ruta para trazar ahora si la ruta al destino
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(mDestinationLatlng).title("DESTINO").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_blue)));
+        mMap.addMarker(new MarkerOptions().position(mOriginlatlng).title("Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_driver_24)));
         drawRoute(mDestinationLatlng);
         sendNotification("INICIADO");
     }
@@ -313,11 +314,12 @@ public class MapDriverBookingActivity extends AppCompatActivity implements OnMap
 
     private void getClient(){
         mClientProvider.getClient(mExtraClientId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    String userName = String.valueOf(snapshot.child("name"));
-                    mTextViewClientBooking.setText(userName);
+                    String userName = (String) snapshot.child("name").getValue();
+                    mTextViewClientBooking.setText("Nombre del usuario: " + userName);
                 }
             }
 

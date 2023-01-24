@@ -145,7 +145,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_client);
 
-        //MyToolbar.show(this, "Cliente", false);
+        MyToolbar.show(this, "Client Map", false);
 
         mAuth = new AuthProvider();
 
@@ -189,7 +189,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         generateToken();
 
         // Get the Intent that started this activity and extract the string
-        mPreferences = getApplicationContext().getSharedPreferences("typeProvider", MODE_PRIVATE);
+        mPreferences = getApplicationContext().getSharedPreferences("preferences", MODE_PRIVATE);
     }
 
     private void requestDriver(){
@@ -498,6 +498,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         }
         FirebaseAuth.getInstance().signOut();
         if (mPreferences.edit().clear().commit()) {
+            Toast.makeText(this, "Borrado", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MapClientActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();

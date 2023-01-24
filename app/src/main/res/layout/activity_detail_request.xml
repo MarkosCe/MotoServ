@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:maxLines="2"
-                android:text="Origin"/>
+                android:text=""/>
         </LinearLayout>
 
         <View
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:maxLines="2"
-                android:text="Destination"/>
+                android:text=""/>
         </LinearLayout>
 
         <View
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:maxLines="2"
-                    android:text="Time"/>
+                    android:text=""/>
 
             </LinearLayout>
 
@@ -135,17 +135,19 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:maxLines="2"
-                    android:text="Distance"/>
+                    android:text=""/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_request_now"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="Solicitar ahora"
+            app:cornerRadius="12dp"
+            android:layout_marginHorizontal="20dp"
             android:backgroundTint="@color/primary_color"
             android:textColor="@color/white_color" />
 

@@ -12,7 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:itemBackground">@color/white_color</item>
+        <item name="android:itemBackground">@color/black</item>
     </style>
 
     <!-- tema para el saplash screen. -->
@@ -26,4 +26,5 @@
         <!-- theme posterior al splash. -->
         <item name="postSplashScreenTheme">@style/Theme.MotoServ</item>
     </style>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.example.motoserv.client;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -51,6 +52,14 @@ public class RateDriverActivity extends AppCompatActivity {
         mTextViewDestination = findViewById(R.id.text_view_rate_destination);
         mRatingBar = findViewById(R.id.rating_bar_driver);
         mButtonRate = findViewById(R.id.btn_rate_driver);
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                moveTaskToBack(true);
+            }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
 
         mClientBookingProvider = new ClientBookingProvider();
         mRideHistoryProvider = new RideHistoryProvider();

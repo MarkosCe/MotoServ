@@ -112,7 +112,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
         mapFragment.getMapAsync(this);
 
         mFloatingButton = findViewById(R.id.floating_home);
-        mFloatingButtonNotify = findViewById(R.id.floating_notifications);
+        //mFloatingButtonNotify = findViewById(R.id.floating_notifications);
         mButtonConnect = findViewById(R.id.btn_connect_driver);
 
         mFloatingButton.setOnClickListener(new View.OnClickListener() {
@@ -122,12 +122,12 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
             }
         });
 
-        mFloatingButtonNotify.setOnClickListener(new View.OnClickListener() {
+        /*mFloatingButtonNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showNotifications();
             }
-        });
+        });*/
 
         mButtonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,7 +161,7 @@ public class MapDriverActivity extends AppCompatActivity implements OnMapReadyCa
                         mMarker = mMap.addMarker(new MarkerOptions().position(
                                         new LatLng(location.getLatitude(), location.getLongitude())
                                 ).title("Tu estás aquí")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_driver)));
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_driver_24)));
                         //localizacion en tiempo real
                         //if (isCameraMove){
                             isCameraMove = false;

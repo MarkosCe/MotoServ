@@ -6,10 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".driver.SubscriptionActivity">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/action_bar_toolbar" />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Credits"
-        android:textAlignment="center"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Subscription"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

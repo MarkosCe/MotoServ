@@ -52,7 +52,8 @@
         </activity>
         <activity
             android:name=".driver.SubscriptionActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".driver.HomeDriverActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -159,7 +160,8 @@
         </activity>
         <activity
             android:name=".SelectAccTypeActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

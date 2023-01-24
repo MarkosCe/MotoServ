@@ -15,13 +15,20 @@ import android.widget.Toast;
 
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
+import com.example.motoserv.utils.FileUtil;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+
+import java.io.File;
+import java.io.IOException;
 
 public class RegisterDriverTwoActivity extends AppCompatActivity {
 
     private ImageView mImageViewIne;
     private ImageView mImageViewComprob;
     Button mButtonReady;
+
+    private File mImageIne;
+    private File mImageCd;
 
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor editor;
@@ -71,12 +78,16 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
     }
 
     void updateUserInfo(){
-        editor.putBoolean("finish", true);
-        editor.putString("typeAcc", typeAccount);
-        editor.apply();
-        Intent intent = new Intent(RegisterDriverTwoActivity.this, HomeDriverActivity.class);
-        startActivity(intent);
-        finish();
+        if (mImageIne != null && mImageCd != null) {
+            editor.putBoolean("finish", true);
+            editor.putString("typeAcc", typeAccount);
+            editor.apply();
+            Intent intent = new Intent(RegisterDriverTwoActivity.this, HomeDriverActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
+            Toast.makeText(this, "Completa la informacion", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -90,10 +101,20 @@ public class RegisterDriverTwoActivity extends AppCompatActivity {
 
             switch (requestCode) {
                 case IMAGE_INE_CODE:
-                    mImageViewIne.setImageURI(uri);
+                    try {
+                        mImageViewIne.setImageURI(uri);
+                        mImageIne = FileUtil.from(this, uri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case IMAGE_COMPROB_CODE:
-                    mImageViewComprob.setImageURI(uri);
+                    try {
+                        mImageViewComprob.setImageURI(uri);
+                        mImageCd = FileUtil.from(this, uri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
         } else if (resultCode == ImagePicker.RESULT_ERROR) {

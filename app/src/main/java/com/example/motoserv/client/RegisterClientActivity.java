@@ -34,6 +34,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
@@ -50,6 +51,8 @@ public class RegisterClientActivity extends AppCompatActivity {
 
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor editor;
+
+    FloatingActionButton mFloatingButton;
 
     String typeAccount;
 
@@ -82,15 +85,23 @@ public class RegisterClientActivity extends AppCompatActivity {
         mGender = findViewById(R.id.groupbtn_gender_client);
         mImageViewProfile = findViewById(R.id.img_view_profile);
         mProgressBar = findViewById(R.id.progress_bar_profile);
+        mFloatingButton = findViewById(R.id.button_select_profile_client);
 
         mProgressBar.setVisibility(View.GONE);
 
-        mImageViewProfile.setOnClickListener(new View.OnClickListener() {
+        mFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imageChooser();
             }
         });
+
+        /*mImageViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageChooser();
+            }
+        });*/
 
         final Button button = findViewById(R.id.btn_empezar);
         button.setOnClickListener(new View.OnClickListener() {

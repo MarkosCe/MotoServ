@@ -7,11 +7,12 @@
     android:fitsSystemWindows="true"
     tools:context=".driver.MapDriverBookingActivity">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_start_drive"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Iniciar viaje"
+        app:cornerRadius="12dp"
         android:textColor="@color/white_color"
         android:backgroundTint="@color/primary_color"
         android:layout_margin="30dp"/>
@@ -86,7 +87,7 @@
                         android:id="@+id/text_view_name_client_booking"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nombre del usuario"
+                        android:text="Nombre del usuario:"
                         android:maxLines="2"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"

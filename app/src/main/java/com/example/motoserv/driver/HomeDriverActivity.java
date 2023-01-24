@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,6 +36,7 @@ public class HomeDriverActivity extends AppCompatActivity {
 
     private ImageView mImageViewProfile;
     private TextView mTextViewName;
+    private TextView mTextViewType;
     private CardView mCardViewCredits;
     private CardView mCardViewUpdateProfile;
     private CardView mCardViewHistory;
@@ -71,6 +73,7 @@ public class HomeDriverActivity extends AppCompatActivity {
 
         mImageViewProfile = findViewById(R.id.img_profile);
         mTextViewName = findViewById(R.id.txt_name);
+        mTextViewType = findViewById(R.id.txt_type);
         mCardViewCredits = findViewById(R.id.card_credits);
         mCardViewUpdateProfile = findViewById(R.id.card_update_profile);
         mCardViewHistory = findViewById(R.id.card_history);
@@ -100,6 +103,7 @@ public class HomeDriverActivity extends AppCompatActivity {
 
     private void initProfile(){
         mDriverProvider.getDriver(mAuthProvider.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
@@ -107,6 +111,7 @@ public class HomeDriverActivity extends AppCompatActivity {
                     String image = (String) snapshot.child("image").getValue();
 
                     mTextViewName.setText(name);
+                    mTextViewType.setText("Conductor");
                     Picasso.get().load(image).into(mImageViewProfile);
                     Picasso.get().setIndicatorsEnabled(true);
                 }
