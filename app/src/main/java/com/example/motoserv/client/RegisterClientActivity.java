@@ -150,7 +150,7 @@ public class RegisterClientActivity extends AppCompatActivity {
         }
     }
 
-    void registerUserInfo(String id) {
+    private void registerUserInfo(String id) {
         String userName = String.valueOf(mTextInputUserName.getText());
         if (!userName.equals("") && mGender.getCheckedRadioButtonId() != -1 && mImageFile != null) {
             mProgressBar.setVisibility(View.VISIBLE);

@@ -150,7 +150,7 @@ public class RateClientActivity extends AppCompatActivity {
                 }
             });
         }else {
-            Toast.makeText(this, "Califica al pasajero", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Califica el viaje", Toast.LENGTH_SHORT).show();
         }
     }
 }

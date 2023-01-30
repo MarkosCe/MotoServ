@@ -324,7 +324,6 @@ public class RequestDriverActivity extends AppCompatActivity {
     }
 
     public void checkStatusClientBooking(){
-
        mListener = mClientBookingProvider.getStatus(mAuthProvider.getId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
