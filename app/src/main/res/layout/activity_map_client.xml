@@ -90,13 +90,17 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/ic_baseline_location_on_24"
-        android:layout_gravity="center"
-        android:layout_marginBottom="45dp"
-        android:contentDescription="icon location" />
+    <ImageButton
+        android:id="@+id/btn_my_location"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_baseline_my_location_24"
+        android:background="@color/white_color"
+        android:layout_gravity="bottom|right"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="120dp"
+        android:visibility="visible"
+        android:contentDescription="my location" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_request_driver"

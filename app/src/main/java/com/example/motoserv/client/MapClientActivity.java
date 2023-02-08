@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.airbnb.lottie.L;
@@ -108,6 +109,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
     private GoogleMap.OnCameraIdleListener mCameraListener;
 
     Button mButtonRequestDriver;
+    ImageButton mMyLocationButton;
 
     private final static int LOCATION_REQUEST_CODE = 1;
     private final static int SETTINGS_REQUEST_CODE = 2;
@@ -122,6 +124,9 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
                 if (getApplicationContext() != null){
 
                     mCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+                    mMyLocationButton.setVisibility(View.VISIBLE);
+                    getCurrentLocation();
 
                     //localizacion en tiempo real
                     mMap.moveCamera(CameraUpdateFactory.newCameraPosition(
@@ -169,6 +174,19 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
 
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
 
+        mMyLocationButton = findViewById(R.id.btn_my_location);
+        mMyLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMap.moveCamera(CameraUpdateFactory.newCameraPosition(
+                        new CameraPosition.Builder()
+                                .target(new LatLng(mCurrentLocation.latitude, mCurrentLocation.longitude))
+                                .zoom(16f)
+                                .build()
+                ));
+            }
+        });
+
         mButtonRequestDriver = findViewById(R.id.btn_request_driver);
         mButtonRequestDriver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,7 +201,7 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         mPlaces = Places.createClient(this);
         instanceAutocompleteOrigin();
         instanceAutocompleteDestination();
-        onCameraMove();
+        //onCameraMove();
 
         //generate token
         generateToken();
@@ -257,6 +275,21 @@ public class MapClientActivity extends AppCompatActivity implements OnMapReadyCa
         mAutocomplete.setLocationBias(RectangularBounds.newInstance(southside, northside));
         mAutocompleteDestination.setCountry("MEX");
         mAutocompleteDestination.setLocationBias(RectangularBounds.newInstance(southside, northside));
+    }
+
+    private void getCurrentLocation(){
+        try {
+            Geocoder geocoder = new Geocoder(MapClientActivity.this);
+            mOriginLocation = mMap.getCameraPosition().target;
+            List<Address> addressList = geocoder.getFromLocation(mOriginLocation.latitude, mOriginLocation.longitude, 1);
+            String city = addressList.get(0).getLocality();
+            String country = addressList.get(0).getCountryName();
+            String address = addressList.get(0).getAddressLine(0);
+            mOrigin = address + " " + city;
+            mAutocomplete.setText("Ubicacion actual");
+        }catch (Exception e){
+            Log.d("Error", "Error current location" + e.getMessage());
+        }
     }
 
     private void onCameraMove(){
