@@ -37,4 +37,5 @@
     <style name="Controls.RatingBar" parent="Widget.AppCompat.RatingBar.Small">
         <item name="android:isIndicator">false</item>
     </style>
+
 </resources>

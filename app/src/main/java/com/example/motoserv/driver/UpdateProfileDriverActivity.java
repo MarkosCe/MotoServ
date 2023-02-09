@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
+import com.example.motoserv.fragments.BottomSheetUsername;
 import com.example.motoserv.models.Driver;
 import com.example.motoserv.providers.AuthProvider;
 import com.example.motoserv.providers.DriverProvider;
@@ -28,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -42,11 +44,19 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
 
     private ImageView mImageViewProfile;
     private FloatingActionButton mFloatingButton;
-    private TextView mTextViewName;
+    private TextInputEditText mTextViewName;
+    private TextInputEditText mTextViewBrand;
+    private TextInputEditText mTextViewPlate;
     private Button mButtonUpdate;
+
+    private TextView mEditUserName;
+
+    private BottomSheetUsername mBottomSheetUsername;
 
     private DriverProvider mDriverProvider;
     private AuthProvider mAuthProvider;
+
+    ValueEventListener mEventListener;
 
     private File mImageFile;
     private static final int IMAGE_PROFILE_CODE = 105;
@@ -61,12 +71,31 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
         mImageViewProfile = findViewById(R.id.img_update_profile_driver);
         mFloatingButton = findViewById(R.id.img_update_camera);
         mTextViewName = findViewById(R.id.input_update_name);
-        mButtonUpdate = findViewById(R.id.btn_update_profile);
+        mTextViewBrand = findViewById(R.id.input_update_brand);
+        mTextViewPlate = findViewById(R.id.input_update_plate);
+        //mButtonUpdate = findViewById(R.id.btn_update_profile);
+
+        mEditUserName = findViewById(R.id.edit_username);
+        mEditUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheetName();
+            }
+        });
 
         mDriverProvider = new DriverProvider();
         mAuthProvider = new AuthProvider();
 
         initComponents();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "ondestroy", Toast.LENGTH_SHORT).show();
+        if (mEventListener != null){
+            mDriverProvider.getDriver(mAuthProvider.getId()).removeEventListener(mEventListener);
+        }
     }
 
     private void initComponents(){
@@ -80,12 +109,12 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
             }
         });
 
-        mButtonUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateProfile();
-            }
-        });
+    }
+
+    private void openBottomSheetName(){
+        String nameCurrent = String.valueOf(mTextViewName.getText());
+        mBottomSheetUsername = BottomSheetUsername.newInstance(nameCurrent);
+        mBottomSheetUsername.show(getSupportFragmentManager(), mBottomSheetUsername.getTag());
     }
 
     private void imageChooser(){
@@ -118,16 +147,20 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
     }
 
     private void getDriverData(){
-        mDriverProvider.getDriver(mAuthProvider.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mEventListener = mDriverProvider.getDriver(mAuthProvider.getId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     String name = (String) snapshot.child("name").getValue();
                     String image = (String) snapshot.child("image").getValue();
+                    String brandVehicle = (String) snapshot.child("brand_vehicle").getValue();
+                    String plateVehicle = (String) snapshot.child("plate_vehicle").getValue();
 
                     Picasso.get().load(image).into(mImageViewProfile);
                     Picasso.get().setIndicatorsEnabled(true);
                     mTextViewName.setText(name);
+                    mTextViewBrand.setText(brandVehicle);
+                    mTextViewPlate.setText(plateVehicle);
                 }
             }
 
@@ -136,13 +169,6 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void updateProfile(){
-        String name = (String) mTextViewName.getText();
-        if (!name.equals("") && mImageViewProfile != null){
-            saveImage(name);
-        }
     }
 
     private void saveImage(String name){

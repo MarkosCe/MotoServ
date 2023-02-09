@@ -43,9 +43,12 @@ import java.io.File;
 public class RegisterDriverActivity extends AppCompatActivity {
 
     TextInputEditText mTextInputUserName;
+    TextInputEditText mTextInputBrand;
+    TextInputEditText mTextInputUserPlate;
     RadioGroup mGender;
     ImageView mImageViewProfile;
     FloatingActionButton mFloatingButton;
+    Button mButtonRegister;
 
     SharedPreferences mPreferences;
     String typeAcc;
@@ -72,6 +75,8 @@ public class RegisterDriverActivity extends AppCompatActivity {
         mPreferences = getApplication().getSharedPreferences("preferences", MODE_PRIVATE);
 
         mTextInputUserName = findViewById(R.id.input_user_name);
+        mTextInputBrand = findViewById(R.id.input_brand);
+        mTextInputUserPlate = findViewById(R.id.input_plate);
         mGender = findViewById(R.id.group_button_gender);
         mImageViewProfile = findViewById(R.id.img_view_profile_driver);
         mProgressBar = findViewById(R.id.progress_bar_profile_driver);
@@ -88,8 +93,8 @@ public class RegisterDriverActivity extends AppCompatActivity {
             }
         });
 
-        final Button button = findViewById(R.id.btn_listo);
-        button.setOnClickListener(new View.OnClickListener() {
+        mButtonRegister = findViewById(R.id.btn_listo);
+        mButtonRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String id = mAuthProvider.getId();
                 registerUserInfo(id);
@@ -126,7 +131,10 @@ public class RegisterDriverActivity extends AppCompatActivity {
 
     private void registerUserInfo(String id){
         String userName = String.valueOf(mTextInputUserName.getText());
+        String brandVehicle = String.valueOf(mTextInputBrand.getText());
+        String plateVehicle = String.valueOf(mTextInputUserPlate.getText());
         if (!userName.equals("") && mGender.getCheckedRadioButtonId() != -1 && mImageFile != null){
+            mButtonRegister.setVisibility(View.GONE);
             mProgressBar.setVisibility(View.VISIBLE);
 
             Driver driver = new Driver();
@@ -134,6 +142,8 @@ public class RegisterDriverActivity extends AppCompatActivity {
             driver.setProvider(mPreferences.getString("provider",""));
             driver.setName(userName);
             driver.setGender(getGender());
+            driver.setBrand_vehicle(brandVehicle);
+            driver.setPlate_vehicle(plateVehicle);
             saveImage(driver);
             //create(driver);
         }else {
@@ -159,6 +169,7 @@ public class RegisterDriverActivity extends AppCompatActivity {
                         }
                     });
                 }else {
+                    mButtonRegister.setVisibility(View.VISIBLE);
                     mProgressBar.setVisibility(View.GONE);
                     Toast.makeText(RegisterDriverActivity.this, "Error: al subir la foto de perfil", Toast.LENGTH_SHORT).show();
                 }
@@ -172,7 +183,7 @@ public class RegisterDriverActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     mProgressBar.setVisibility(View.GONE);
-                    Toast.makeText(RegisterDriverActivity.this, "Registradooo", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(RegisterDriverActivity.this, "Registradooo", Toast.LENGTH_SHORT).show();
                     if (typeAcc != null){
                         Toast.makeText(RegisterDriverActivity.this, typeAcc, Toast.LENGTH_SHORT).show();
                     }
@@ -181,6 +192,7 @@ public class RegisterDriverActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }else {
+                    mButtonRegister.setVisibility(View.VISIBLE);
                     mProgressBar.setVisibility(View.GONE);
                     Toast.makeText(RegisterDriverActivity.this, "Algo salío mal", Toast.LENGTH_SHORT).show();
                 }

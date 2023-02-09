@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white_color"
     tools:context=".driver.UpdateProfileDriverActivity">
 
     <include layout="@layout/action_bar_toolbar" />
@@ -55,6 +56,14 @@
 
         </FrameLayout>
 
+        <TextView
+            android:id="@+id/edit_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="editar"
+            android:textColor="@color/com_facebook_blue"
+            android:layout_gravity="end"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,11 +72,9 @@
             app:counterTextColor="@color/black"
             app:helperTextTextColor="@color/black"
             app:hintTextColor="@color/black"
-            android:textColorHint="@color/gray_color"
             app:startIconTint="@color/black"
             app:boxStrokeColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:hint="Nombre completo">
+            android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_update_name"
@@ -78,34 +85,98 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ProgressBar
-            android:id="@+id/progress_bar_update_profile"
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:max="100"
-            android:visibility="gone"/>
+            android:text="Datos del mototaxi"
+            android:textStyle="bold"
+            android:textColor="@color/quantum_grey600"
+            android:layout_marginTop="30dp"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="editar"
+                    android:textColor="@color/com_facebook_blue"
+                    android:layout_gravity="end"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/ic_driver_24"
+                    app:counterTextColor="@color/black"
+                    app:helperTextTextColor="@color/black"
+                    app:hintTextColor="@color/black"
+                    android:textColorHint="@color/gray_color"
+                    app:startIconTint="@color/black"
+                    app:boxStrokeColor="@color/black"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="30"
+                    android:enabled="false"
+                    android:hint="Marca del vehiculo">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_update_brand"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:inputType="textPersonName" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="editar"
+                    android:textColor="@color/com_facebook_blue"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="end"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/ic_baseline_brand_24"
+                    app:counterTextColor="@color/black"
+                    app:helperTextTextColor="@color/black"
+                    app:hintTextColor="@color/black"
+                    android:textColorHint="@color/gray_color"
+                    app:startIconTint="@color/black"
+                    app:boxStrokeColor="@color/black"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="10"
+                    android:enabled="false"
+                    android:hint="Placa del vehiculo">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_update_plate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:inputType="textPersonName" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom"
-        android:gravity="bottom|center"
-        android:layout_marginBottom="20dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_update_profile"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:text="Actualizar perfil"
-            app:cornerRadius="12dp"
-            android:backgroundTint="@color/primary_color"
-            android:textColor="@color/white_color"/>
-
-    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

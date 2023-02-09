@@ -108,32 +108,97 @@
 
         </RadioGroup>
 
-        <ProgressBar
-            android:id="@+id/progress_bar_profile_driver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:max="100"/>
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="bottom|center">
+            android:layout_height="wrap_content"
+            android:text="Datos del mototaxi"
+            android:textStyle="bold"
+            android:textColor="@color/quantum_grey600"
+            android:layout_marginTop="10dp"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_listo"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:text="Siguiente"
-                app:cornerRadius="12dp"
-                android:backgroundTint="@color/primary_color"
-                android:textColor="@color/white_color"
-                android:layout_marginBottom="20dp"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/ic_driver_24"
+                    app:counterTextColor="@color/black"
+                    app:helperTextTextColor="@color/black"
+                    app:hintTextColor="@color/black"
+                    android:textColorHint="@color/gray_color"
+                    app:startIconTint="@color/black"
+                    app:boxStrokeColor="@color/black"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="30"
+                    android:hint="Marca del vehiculo">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_brand"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:inputType="textPersonName" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/ic_baseline_brand_24"
+                    app:counterTextColor="@color/black"
+                    app:helperTextTextColor="@color/black"
+                    app:hintTextColor="@color/black"
+                    android:textColorHint="@color/gray_color"
+                    app:startIconTint="@color/black"
+                    app:boxStrokeColor="@color/black"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="10"
+                    android:hint="Placa del vehiculo"
+                    android:layout_marginTop="10dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_plate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:inputType="textPersonName" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_profile_driver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:max="100"
+        android:visibility="gone"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_listo"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Siguiente"
+        app:cornerRadius="12dp"
+        android:backgroundTint="@color/primary_color"
+        android:textColor="@color/white_color"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="20dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

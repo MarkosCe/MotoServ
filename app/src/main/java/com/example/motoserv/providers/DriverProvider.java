@@ -27,6 +27,12 @@ public class DriverProvider {
         return db.child(user.getId()).updateChildren(map);
     }
 
+    public Task<Void> updateUsername(String id, String name){
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        return db.child(id).updateChildren(map);
+    }
+
     public DatabaseReference getDriver(String idDriver){
         return db.child(idDriver);
     }
