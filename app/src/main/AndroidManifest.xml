@@ -37,7 +37,8 @@
         <activity
             android:name=".driver.RideHistoryDriverActivity"
             android:exported="false"
-            android:parentActivityName=".driver.HomeDriverActivity">
+            android:parentActivityName=".driver.HomeDriverActivity"
+            android:rotationAnimation="">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -45,7 +46,8 @@
         <activity
             android:name=".driver.UpdateProfileDriverActivity"
             android:exported="false"
-            android:parentActivityName=".driver.HomeDriverActivity">
+            android:parentActivityName=".driver.HomeDriverActivity"
+            >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

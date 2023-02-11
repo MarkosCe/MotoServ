@@ -20,16 +20,27 @@ public class DriverProvider {
         return db.child(user.getId()).setValue(user);
     }
 
-    public Task<Void> update(Driver user){
+    public Task<Void> updateImageProfile(String id, String uri){
         Map<String, Object> map = new HashMap<>();
-        map.put("name", user.getName());
-        map.put("image", user.getImage());
-        return db.child(user.getId()).updateChildren(map);
+        map.put("image", uri);
+        return db.child(id).updateChildren(map);
     }
 
     public Task<Void> updateUsername(String id, String name){
         Map<String, Object> map = new HashMap<>();
         map.put("name", name);
+        return db.child(id).updateChildren(map);
+    }
+
+    public Task<Void> updateBrandVehicle(String id, String brand){
+        Map<String, Object> map = new HashMap<>();
+        map.put("brand_vehicle", brand);
+        return db.child(id).updateChildren(map);
+    }
+
+    public Task<Void> updatePlateVehicle(String id, String plate){
+        Map<String, Object> map = new HashMap<>();
+        map.put("plate_vehicle", plate);
         return db.child(id).updateChildren(map);
     }
 

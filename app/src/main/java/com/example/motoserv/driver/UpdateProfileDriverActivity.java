@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.motoserv.MyToolbar;
 import com.example.motoserv.R;
+import com.example.motoserv.fragments.BottomSheetBrandVehicle;
+import com.example.motoserv.fragments.BottomSheetPlateVehicle;
 import com.example.motoserv.fragments.BottomSheetUsername;
 import com.example.motoserv.models.Driver;
 import com.example.motoserv.providers.AuthProvider;
@@ -50,8 +52,12 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
     private Button mButtonUpdate;
 
     private TextView mEditUserName;
+    private TextView mEditBrandVehicle;
+    private TextView mEditPlateVehicle;
 
     private BottomSheetUsername mBottomSheetUsername;
+    private BottomSheetBrandVehicle mBottomSheetBrandVehicle;
+    private BottomSheetPlateVehicle mBottomSheetPlateVehicle;
 
     private DriverProvider mDriverProvider;
     private AuthProvider mAuthProvider;
@@ -76,10 +82,26 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
         //mButtonUpdate = findViewById(R.id.btn_update_profile);
 
         mEditUserName = findViewById(R.id.edit_username);
+        mEditBrandVehicle = findViewById(R.id.edit_brand_vehicle);
+        mEditPlateVehicle = findViewById(R.id.edit_plate_vehicle);
         mEditUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openBottomSheetName();
+            }
+        });
+        
+        mEditBrandVehicle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheetBrand();
+            }
+        });
+        
+        mEditPlateVehicle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheetPlate();
             }
         });
 
@@ -116,6 +138,18 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
         mBottomSheetUsername = BottomSheetUsername.newInstance(nameCurrent);
         mBottomSheetUsername.show(getSupportFragmentManager(), mBottomSheetUsername.getTag());
     }
+    
+    private void openBottomSheetBrand(){
+        String brandCurrent = String.valueOf(mTextViewBrand.getText());
+        mBottomSheetBrandVehicle = BottomSheetBrandVehicle.newInstance(brandCurrent);
+        mBottomSheetBrandVehicle.show(getSupportFragmentManager(), mBottomSheetBrandVehicle.getTag());
+    }
+
+    private void openBottomSheetPlate(){
+        String plateCurrent = String.valueOf(mTextViewPlate.getText());
+        mBottomSheetPlateVehicle = BottomSheetPlateVehicle.newInstance(plateCurrent);
+        mBottomSheetPlateVehicle.show(getSupportFragmentManager(), mBottomSheetPlateVehicle.getTag());
+    }
 
     private void imageChooser(){
         ImagePicker.with(UpdateProfileDriverActivity.this)
@@ -136,6 +170,7 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
                 //mImageViewProfile.setImageBitmap(BitmapFactory.decodeFile(mImageFile.getAbsolutePath()));
                 Picasso.get().load(mImageFile).into(mImageViewProfile);
                 Picasso.get().setIndicatorsEnabled(true);
+                saveImage();
             }catch (Exception e){
                 Log.d("ERROR", e.getMessage());
             }
@@ -171,7 +206,7 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
         });
     }
 
-    private void saveImage(String name){
+    private void saveImage(){
         byte[] imageByte = CompressorBitmapImage.getImage(this, mImageFile.getPath(), 500, 500);
         StorageReference storage = FirebaseStorage.getInstance().getReference().child("user_images").child(mAuthProvider.getId());
         UploadTask uploadTask = storage.putBytes(imageByte);
@@ -184,11 +219,7 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             String image = uri.toString();
-                            Driver driver = new Driver();
-                            driver.setId(mAuthProvider.getId());
-                            driver.setName(name);
-                            driver.setImage(image);
-                            update(driver);
+                            updateImageProfile(image);
                         }
                     });
                 }else {
@@ -198,15 +229,14 @@ public class UpdateProfileDriverActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void update(Driver driver){
-        mDriverProvider.update(driver).addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void updateImageProfile(String path){
+        mDriverProvider.updateImageProfile(mAuthProvider.getId(), path).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(UpdateProfileDriverActivity.this, "Datos actualizados", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateProfileDriverActivity.this, "La imagen de perfil se ha actualizado", Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(UpdateProfileDriverActivity.this, "Error: no se pudo actualizar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateProfileDriverActivity.this, "Error al actualizar la imagen de perfil", Toast.LENGTH_SHORT).show();
                 }
             }
         });
